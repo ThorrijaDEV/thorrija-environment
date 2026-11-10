@@ -119,7 +119,7 @@ def test_validate_all_manifests_pass():
 
     # Verificar que hay warnings de PENDING-VERIFICATION
     total_warnings = sum(len(r.warnings) for r in results)
-    assert total_warnings >= 60  # muchos PENDING-VERIFICATION
+    assert total_warnings >= 40  # varios PENDING-VERIFICATION pendientes
 
 
 def test_filter_by_category():

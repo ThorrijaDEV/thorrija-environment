@@ -39,7 +39,7 @@ gentoo = "dev-vcs/lazygit"
 [install.binary_release]
 url_template = "https://github.com/jesseduffield/lazygit/releases/download/v{version}/lazygit_{version}_Linux_{arch}.tar.gz"
 version = "0.44.0"
-sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+sha256 = { x86_64 = "5c0fbf21161b0f4b2ec7d5dbe58b3df7b8feca40182c7c2d95792db9d9ff645c", aarch64 = "9966a89d101ab8323d1cc30157f4d9bc394acb153d6ca2b6ae7feb666815e9d1" }
 archive_type = "tar.gz"
 binary_name = "lazygit"
 install_to = "~/.local/bin"

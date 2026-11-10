@@ -39,7 +39,7 @@ gentoo = "app-misc/fd"
 [install.binary_release]
 url_template = "https://github.com/sharkdp/fd/releases/download/v{version}/fd-v{version}-{arch}-unknown-linux-gnu.tar.gz"
 version = "10.1.0"
-sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+sha256 = { x86_64 = "08c4aea86e0a7eb574bd65fe1c8a9a570d157f9ac1467cb78c180ec915e55648", aarch64 = "a7a1eb31808ac1978d51ef589db2d003a8746dc435dcb7a1a0b9d1a629abef02" }
 archive_type = "tar.gz"
 binary_name = "fd"
 install_to = "~/.local/bin"

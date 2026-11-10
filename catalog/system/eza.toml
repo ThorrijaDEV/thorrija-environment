@@ -39,7 +39,7 @@ gentoo = "sys-apps/eza"
 [install.binary_release]
 url_template = "https://github.com/eza-community/eza/releases/download/v{version}/eza_{arch}-unknown-linux-gnu.tar.gz"
 version = "0.19.0"
-sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+sha256 = { x86_64 = "21ae2106527ec6fa1caa0f4b17f028405252bd3964f770d503be08df89fe3d1c", aarch64 = "5bbc2feede21dfcadff8cf793b759b0243c3ad9831872e926e88c85bc5d3a2f5" }
 archive_type = "tar.gz"
 binary_name = "eza"
 install_to = "~/.local/bin"

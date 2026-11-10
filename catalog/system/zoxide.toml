@@ -38,8 +38,8 @@ gentoo = "app-shells/zoxide"
 
 [install.binary_release]
 url_template = "https://github.com/ajeetdsouza/zoxide/releases/download/v{version}/zoxide-{arch}-unknown-linux-musl.tar.gz"
-version = "0.9.6"
-sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+version = "0.10.0"
+sha256 = { x86_64 = "2d93385b99f3e82cf2701609a1bffcad863fbeb75aa3fe7eb6be4d29be68b1ae", aarch64 = "f1f16c5d6298d63dee467eedea1cdcd8490e43e493bea43acd416dc9033ef641" }
 archive_type = "tar.gz"
 binary_name = "zoxide"
 install_to = "~/.local/bin"

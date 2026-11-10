@@ -39,7 +39,7 @@ gentoo = "app-shells/starship"
 [install.binary_release]
 url_template = "https://github.com/starship/starship/releases/download/v{version}/starship-{arch}-unknown-linux-gnu.tar.gz"
 version = "1.20.1"
-sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+sha256 = { x86_64 = "f6cd65f2364d1fb32fea779ce779bd933e5ad23a2ea954d4f1b49e6bcb9c7a7b", aarch64 = "0ba2aeb761580c89f85015e57d635fffd4ae4e6d10c8e11fa373334e9364d169" }
 archive_type = "tar.gz"
 binary_name = "starship"
 install_to = "~/.local/bin"
