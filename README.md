@@ -1,81 +1,182 @@
-# Thorrija Environment
+# THORRIJA ENVIRONMENT
 
-Universal, adaptive, hardware-agnostic development environment provisioner for Linux.
+Universal, adaptive development environment provisioner for Linux, Windows 11, and macOS (via WSL2).
 
-## Estado del proyecto
+## Instalación Universal
 
-| Fase | Descripción | Estado |
-|------|-------------|--------|
-| 0 | Auditoría e investigación | Completada |
-| 1 | Especificación formal | Completada |
-| 2 | Implementación del núcleo | Completada |
-| 3 | Catálogo modular | Completada |
-| 4 | Distribución offline/SSD | Pendiente |
-| 5 | Validación final | Pendiente |
-
-Última actualización: 2026-11-10
-
-## Qué hace
-
-Thorrija Environment es un provisionador **basado en manifiestos** que:
-
-1. **Detecta** el sistema operativo, hardware y recursos (sin asumir, con fallbacks en cascada)
-2. **Clasifica** la máquina en un perfil (LOW-END / STANDARD / HIGH-END) con umbrales configurables
-3. **Selecciona** herramientas de un catálogo modular mediante manifiestos TOML declarativos
-4. **Genera** un plan de instalación revisable por el usuario, con estimación de recursos
-5. **Instala** mediante drivers idempotentes (paquetes nativos, binarios, git, scripts, pipx)
-6. **Audita** resultados reales (comando presente + patrón de salida, no solo código de salida)
-
-## Inicio rápido (cuando esté listo)
+### Linux / macOS (WSL2) / Windows 11 (PowerShell)
 
 ```bash
-# Desde GitHub
-curl -fsSL https://github.com/ThorrijaDEV/thorrija-environment/releases/latest/download/install.sh | bash -s -- --detect
+# Linux / macOS / WSL2
+curl -fsSL https://github.com/ThorrijaDEV/thorrija-environment/releases/latest/download/install.sh | bash -s -- --profile standard --yes
+
+# Windows 11 (PowerShell como Administrador)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm https://github.com/ThorrijaDEV/thorrija-environment/releases/latest/download/install.ps1 | iex -- --profile standard --yes
+```
+
+### Opciones de perfil
+
+| Perfil | Hardware objetivo | Qué instala |
+|--------|-------------------|-------------|
+| `--profile minimal` | Cualquier hardware | Solo esenciales: git, python, editor CLI, shell |
+| `--profile low-end` | 2-4 GB RAM, 2 cores, sin GPU | CLI tools, Python, git, neovim, fish, tools ligeros |
+| `--profile standard` | 8-16 GB RAM, 4-8 cores, GPU opcional | Entorno completo desarrollo + contenedores opcionales + IA en CPU |
+| `--profile high-end` | 16+ GB RAM, 8+ cores, GPU dedicada | Todo + IA local (Ollama, PyTorch CUDA), modelos locales |
+
+### Opciones útiles
+
+```bash
+# Ver qué se instalaría (dry-run)
 ./install.sh --profile standard --plan
-./install.sh --profile standard --yes
+
+# Solo categoría específica
+./install.sh --category ai --yes
+./install.sh --category system --yes
+./install.sh --category development --yes
+
+# Forzar perfil específico (ignora auto-detección)
+./install.sh --profile high-end --yes
+
+# Incluir herramientas opcionales del perfil
+./install.sh --profile standard --include-optional --yes
+
+# Solo detectar hardware y perfil sugerido
+./install.sh --detect
 ```
 
-## Documentación
+---
 
-- [Arquitectura](docs/ARCHITECTURE.md) — Diseño del sistema, flujo de datos, límites de módulos
-- [Manifiestos](docs/MANIFESTS.md) — Esquema TOML, semántica de clasificación, perfiles
-- [Seguridad](docs/SECURITY.md) — Modelo de amenazas, política sudo, hash pinning, backups
-- [Compatibilidad](docs/COMPATIBILITY.md) — Matriz distro × herramienta, verified/assumed/unsupported
-- [Bootstrap](docs/BOOTSTRAP.md) — Especificación de install.sh, estrategias de fallback Python
+## Qué se instala por categoría
 
-## Estructura del catálogo
+### `system` — Sistema base y shell
+| Herramienta | Descripción |
+|-------------|-------------|
+| **fish** | Shell amigable e interactiva |
+| **starship** | Prompt rápido y personalizable |
+| **tmux** | Multiplexor de terminal |
+| **zoxide** | `cd` inteligente que aprende |
+| **fzf** | Buscador difuso interactivo |
+| **ripgrep (rg)** | Búsqueda rápida tipo grep |
+| **fd** | Alternativa rápida a `find` |
+| **bat** | `cat` con syntax highlighting |
+| **eza** | `ls` moderno con colores y git |
+| **btop / htop** | Monitores de recursos |
+| **lazygit** | UI de terminal para git |
 
-```
-catalog/
-├── languages/      # Python, Rust, Go, Java, JS/TS, C/C++
-├── development/    # Git, GitHub CLI, CMake, Make, Docker, Podman
-├── editors/        # Neovim, VS Code, OpenCode, terminales
-├── ai/             # Ollama, LiteLLM, PyTorch, NumPy, scikit-learn
-├── security/       # Nmap, Wireshark, herramientas de análisis
-└── system/         # Fish, Starship, tmux, fuentes, dotfiles (chezmoi)
-```
+### `development` — Herramientas de desarrollo
+| Herramienta | Descripción |
+|-------------|-------------|
+| **git** | Control de versiones |
+| **gh** | GitHub CLI |
+| **cmake / meson / ninja** | Build systems |
+| **make / pkgconf** | Build automation |
+| **docker / podman** | Contenedores (opcional en standard) |
+| **direnv** | Variables de entorno por proyecto |
 
-## Perfiles
+### `editors` — Editores de código
+| Editor | Perfil |
+|--------|--------|
+| **neovim** | low-end, standard, high-end |
+| **helix** | standard, high-end |
+| **micro** | low-end, standard, high-end |
+| **vscode** | high-end (opcional en standard) |
+| **code-server** | high-end (opcional en standard) |
 
-| Perfil | Hardware objetivo | Filosofía |
-|--------|-------------------|-----------|
-| `low-end` | 2 cores, 2–4 GB RAM, sin GPU, disco limitado | Solo CLI, servicios mínimos, sin IA local |
-| `standard` | 4–8 cores, 8–16 GB RAM, GPU opcional | Entorno de desarrollo completo, contenedores opcionales, IA en CPU |
-| `high-end` | 16+ GB RAM, CPU moderna, GPU dedicada opcional | Frameworks de IA, Ollama, PyTorch/CUDA, modelos locales |
+### `languages` — Lenguajes de programación
+| Lenguaje | Perfil | Método |
+|----------|--------|--------|
+| **Python 3.11+** | Todos | Native |
+| **Rust (rustup)** | standard, high-end | binary_release |
+| **Go** | standard, high-end | Native |
+| **Node.js (LTS)** | standard, high-end | Native |
+| **Java (OpenJDK 21)** | high-end | Native |
+| **Zig** | standard, high-end | Native |
+| **Bun** | standard, high-end | binary_release |
+| **Deno** | standard, high-end | binary_release |
 
-Los perfiles son **configurables** — los umbrales viven en `profiles/*.toml`, no en código.
+### `ai` — Inteligencia Artificial / ML
+| Herramienta | Perfil | Descripción |
+|-------------|--------|-------------|
+| **Ollama** | high-end (opt standard) | LLM locales (Llama, Qwen, etc.) |
+| **LiteLLM** | standard, high-end | Proxy unificado 100+ LLMs |
+| **llama.cpp** | high-end | Inferencia C++ GGUF |
+| **whisper.cpp** | high-end | Speech-to-text local |
+| **PyTorch** | high-end | Deep learning framework |
+| **NumPy / pandas / scikit-learn** | standard, high-end | Cientific computing |
 
-## Distribución
+### `security` — Seguridad y auditoría
+| Herramienta | Descripción |
+|-------------|-------------|
+| **nmap** | Escáner de puertos/red |
+| **tshark (Wireshark CLI)** | Análisis de paquetes |
+| **tcpdump** | Captura de tráfico |
+| **openssl / gpg / age** | Criptografía y encriptación |
+| **ssh-audit** | Auditoría SSH |
+| **lynis** | Auditoría de sistema |
 
-**Esta fase: solo GitHub.** El instalador descarga manifiestos y motor desde GitHub releases. El modo offline/SSD está diseñado (la arquitectura lo permite) pero no implementado.
+---
+
+## Detección automática
+
+El instalador detecta automáticamente:
+
+| Recurso | Detección |
+|---------|-----------|
+| **OS** | Linux (Arch, Debian, Ubuntu, Fedora, Void), Windows 11, macOS (WSL2) |
+| **CPU** | Modelo, cores físicos/lógicos, vendor, flags |
+| **RAM** | Total, disponible, swap |
+| **GPU** | Vendor (NVIDIA/AMD/Intel), VRAM, driver, dedicada vs integrada |
+| **Disco** | Tamaño, libre, SSD vs HDD |
+| **Perfil sugerido** | Basado en RAM, cores, GPU dedicada |
+
+---
 
 ## Requisitos
 
-- Linux (Arch, Debian, Ubuntu, Fedora, Void — otros vía drivers genéricos)
-- Bash + Python ≥ 3.9 (el bootstrap gestiona Python ausente)
-- Acceso a Internet para descargas de GitHub
-- sudo para instalaciones nativas (agrupadas, mostradas, confirmadas)
+| Plataforma | Requisitos |
+|------------|------------|
+| **Linux** | Arch, Debian 11+, Ubuntu 20.04+, Fedora 38+, Void — Bash + Python 3.9+ |
+| **Windows 11** | PowerShell 5.1+, winget/chocolatey/scoop (auto-instala Python) |
+| **macOS** | Solo via WSL2 (Linux nativo) |
+| **Común** | Internet para descargas, sudo/admin para paquetes nativos |
+
+---
+
+## Seguridad
+
+- **Hash SHA-256 pinneado** en todos los binarios descargados
+- **Sin `curl \| bash`** sin verificación de integridad
+- **Sudo/UAC agrupado** y confirmado antes de ejecutar
+- **Backups automáticos** antes de modificar dotfiles (`~/.thorrija-backup/`)
+- **Log de auditoría** inmutable JSON-lines (`~/.local/share/thorrija/log/`)
+- **Modelos IA nunca automáticos** — cada `ollama pull` requiere confirmación
+
+---
+
+## Desinstalación / Auditoría
+
+```bash
+# Ver auditoría última ejecución
+thorrija --audit
+
+# Ver auditoría en JSON
+thorrija --audit --json
+
+# Ver backups disponibles
+ls ~/.thorrija-backup/
+
+# Restaurar backup manual
+rsync -av ~/.thorrija-backup/20261110-143022/home/ ~/
+```
+
+---
 
 ## Licencia
 
-MIT — ver LICENSE (pendiente).
+MIT — [LICENSE](LICENSE)
+
+---
+
+**Repositorio**: https://github.com/ThorrijaDEV/thorrija-environment  
+**Issues**: https://github.com/ThorrijaDEV/thorrija-environment/issues
