@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 0'  # weekly
+
+jobs:
+  validate:
+    name: Validar manifiestos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validar manifiestos
+        run: PYTHONPATH=src python3 tests/validate_manifests.py
+
+  test-unit:
+    name: Tests unitarios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ejecutar tests
+        run: python3 -m pytest tests/ -v
+
+  test-distro:
+    name: Test en ${{ matrix.distro }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - distro: arch
+            runner: ubuntu-latest
+            container: archlinux:latest
+            pkg_cmd: "pacman -Sy --noconfirm"
+          - distro: debian
+            runner: ubuntu-latest
+            container: debian:12
+            pkg_cmd: "apt-get update && apt-get install -y"
+          - distro: ubuntu
+            runner: ubuntu-latest
+            container: ubuntu:24.04
+            pkg_cmd: "apt-get update && apt-get install -y"
+          - distro: fedora
+            runner: ubuntu-latest
+            container: fedora:40
+            pkg_cmd: "dnf install -y"
+          - distro: void
+            runner: ubuntu-latest
+            container: voidlinux/voidlinux:latest
+            pkg_cmd: "xbps-install -Sy"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar dependencias base
+        run: |
+          ${{ matrix.pkg_cmd }} python3 git curl tar sha256sum
+      - name: Clonar repo en contenedor
+        run: git clone https://github.com/ThorrijaDEV/thorrija-environment.git /tmp/thorrija && cd /tmp/thorrija
+      - name: Ejecutar detección
+        run: |
+          cd /tmp/thorrija
+          PYTHONPATH=src python3 -m thorrija --detect
+      - name: Generar plan standard
+        run: |
+          cd /tmp/thorrija
+          PYTHONPATH=src python3 -m thorrija --profile standard --plan
+      - name: Validar manifiestos en contenedor
+        run: |
+          cd /tmp/thorrija
+          PYTHONPATH=src python3 tests/validate_manifests.py
+
+  hash-pinning:
+    name: Calcular hashes reales
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calcular hashes de releases
+        run: |
+          # Este job se ejecuta al crear un release para pinnear hashes reales
+          # Requiere lógica para descargar cada release y calcular sha256
+          echo "Implementar cálculo de hashes para releases en catalog/**/*.toml"

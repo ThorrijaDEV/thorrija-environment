@@ -4,6 +4,7 @@ Driver nativo: gestores de paquetes del sistema (pacman, apt, dnf, xbps, zypper,
 
 from __future__ import annotations
 
+import os
 import subprocess
 import time
 from typing import List, Optional, TYPE_CHECKING
@@ -140,7 +141,7 @@ class NativeDriver(BaseDriver):
             return DriverResult(
                 success=True,
                 tool_name=tool_name,
-                method=self.name,
+                method="already_installed",
                 version="",
                 duration_ms=int((time.time() - start) * 1000),
             )
@@ -156,15 +157,19 @@ class NativeDriver(BaseDriver):
 
         # Instalar
         install_cmd = PKG_COMMANDS[pkg_manager]["install"]
-        cmd = f"sudo {install_cmd} {package}"
+        sudo_password = os.environ.get("THORRIJA_SUDO_PASSWORD")
+        cmd = f"sudo -S {install_cmd} {package}"
 
         try:
+            # Usar input para pasar password a sudo -S (más seguro que pipe en shell)
+            sudo_input = (sudo_password + "\n") if sudo_password else "\n"
             result = subprocess.run(
                 cmd,
                 shell=True,
                 capture_output=True,
                 text=True,
-                timeout=300,  # 5 min para instalaciones grandes
+                timeout=300,
+                input=sudo_input,
             )
             duration = int((time.time() - start) * 1000)
 

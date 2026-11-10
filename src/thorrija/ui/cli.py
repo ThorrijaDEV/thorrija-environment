@@ -215,7 +215,7 @@ class ThorrijaCLI:
         print(format_plan(self.plan))
 
         # Confirmación
-        if not self.args.force:
+        if not self.args.force and not self.args.yes:
             enabled = len(self.plan.get_enabled_entries())
             optional = len(self.plan.get_optional_entries())
             print(f"\n{format_warning('Resumen:')} {enabled} herramientas se instalarán, {optional} opcionales.")
