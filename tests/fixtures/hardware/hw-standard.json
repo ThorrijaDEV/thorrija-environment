@@ -1,0 +1,25 @@
+{
+  "cpu": {
+    "model": "Intel Core i5-8250U @ 1.60GHz",
+    "cores": 4,
+    "threads": 8,
+    "architecture": "x86_64",
+    "vendor": "intel",
+    "flags": ["ht"]
+  },
+  "memory": {
+    "total_mb": 8192,
+    "available_mb": 5120,
+    "swap_total_mb": 4096,
+    "swap_free_mb": 4096
+  },
+  "gpus": [
+    {"vendor": "intel", "model": "Intel UHD Graphics 620", "vram_mb": 0, "driver": "i915", "is_dedicated": false}
+  ],
+  "disks": [
+    {"path": "/", "total_mb": 262144, "free_mb": 131072, "is_ssd": true, "filesystem": "ext4"}
+  ],
+  "hostname": "test-standard",
+  "kernel": "6.8.0",
+  "architecture": "x86_64"
+}

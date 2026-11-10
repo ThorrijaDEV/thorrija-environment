@@ -1,0 +1,25 @@
+{
+  "cpu": {
+    "model": "AMD Ryzen 9 7950X @ 4.50GHz",
+    "cores": 16,
+    "threads": 32,
+    "architecture": "x86_64",
+    "vendor": "amd",
+    "flags": ["ht"]
+  },
+  "memory": {
+    "total_mb": 32768,
+    "available_mb": 24576,
+    "swap_total_mb": 16384,
+    "swap_free_mb": 16384
+  },
+  "gpus": [
+    {"vendor": "nvidia", "model": "NVIDIA GeForce RTX 4090", "vram_mb": 24576, "driver": "550.90.07", "is_dedicated": true}
+  ],
+  "disks": [
+    {"path": "/", "total_mb": 1048576, "free_mb": 524288, "is_ssd": true, "filesystem": "ext4"}
+  ],
+  "hostname": "test-ai",
+  "kernel": "6.10.0",
+  "architecture": "x86_64"
+}

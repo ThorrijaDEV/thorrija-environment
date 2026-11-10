@@ -1,0 +1,25 @@
+{
+  "cpu": {
+    "model": "AMD Ryzen 7 5800X @ 3.80GHz",
+    "cores": 8,
+    "threads": 16,
+    "architecture": "x86_64",
+    "vendor": "amd",
+    "flags": ["ht"]
+  },
+  "memory": {
+    "total_mb": 16384,
+    "available_mb": 12288,
+    "swap_total_mb": 8192,
+    "swap_free_mb": 8192
+  },
+  "gpus": [
+    {"vendor": "nvidia", "model": "NVIDIA GeForce RTX 3060", "vram_mb": 12288, "driver": "535.154.05", "is_dedicated": true}
+  ],
+  "disks": [
+    {"path": "/", "total_mb": 524288, "free_mb": 262144, "is_ssd": true, "filesystem": "ext4"}
+  ],
+  "hostname": "test-workstation",
+  "kernel": "6.10.0",
+  "architecture": "x86_64"
+}

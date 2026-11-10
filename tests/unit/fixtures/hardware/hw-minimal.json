@@ -1,0 +1,25 @@
+{
+  "cpu": {
+    "model": "Intel Celeron N2840 @ 2.16GHz",
+    "cores": 2,
+    "threads": 2,
+    "architecture": "x86_64",
+    "vendor": "intel",
+    "flags": []
+  },
+  "memory": {
+    "total_mb": 2048,
+    "available_mb": 1024,
+    "swap_total_mb": 1024,
+    "swap_free_mb": 1024
+  },
+  "gpus": [
+    {"vendor": "intel", "model": "Intel HD Graphics (Bay Trail)", "vram_mb": 0, "driver": "i915", "is_dedicated": false}
+  ],
+  "disks": [
+    {"path": "/", "total_mb": 32768, "free_mb": 8192, "is_ssd": false, "filesystem": "ext4"}
+  ],
+  "hostname": "test-minimal",
+  "kernel": "6.1.0",
+  "architecture": "x86_64"
+}

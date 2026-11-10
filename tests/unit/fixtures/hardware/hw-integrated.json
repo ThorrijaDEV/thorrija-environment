@@ -1,0 +1,25 @@
+{
+  "cpu": {
+    "model": "AMD Ryzen 5 3500U @ 2.10GHz",
+    "cores": 4,
+    "threads": 8,
+    "architecture": "x86_64",
+    "vendor": "amd",
+    "flags": ["ht"]
+  },
+  "memory": {
+    "total_mb": 4096,
+    "available_mb": 2560,
+    "swap_total_mb": 2048,
+    "swap_free_mb": 2048
+  },
+  "gpus": [
+    {"vendor": "amd", "model": "AMD Radeon Vega 3 Mobile", "vram_mb": 512, "driver": "amdgpu", "is_dedicated": false}
+  ],
+  "disks": [
+    {"path": "/", "total_mb": 131072, "free_mb": 65536, "is_ssd": true, "filesystem": "ext4"}
+  ],
+  "hostname": "test-integrated",
+  "kernel": "6.6.0",
+  "architecture": "x86_64"
+}
