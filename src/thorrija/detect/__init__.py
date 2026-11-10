@@ -13,6 +13,10 @@ from .classify import (
     BUILTIN_PROFILES, DEFAULT_THRESHOLDS,
     classify_hardware,
 )
+from .windows import (
+    WindowsOSDetector, WindowsOSReport, WindowsHardwareDetector,
+    detect_windows_os, detect_windows_hardware,
+)
 
 __all__ = [
     "OSDetector", "OSReport", "detect_os",
@@ -20,4 +24,6 @@ __all__ = [
     "CPUInfo", "MemoryInfo", "GPUInfo", "DiskInfo", "detect_hardware",
     "ProfileClassifier", "ProfileConfig", "ProfileThresholds",
     "BUILTIN_PROFILES", "DEFAULT_THRESHOLDS", "classify_hardware",
+    "WindowsOSDetector", "WindowsOSReport", "WindowsHardwareDetector",
+    "detect_windows_os", "detect_windows_hardware",
 ]

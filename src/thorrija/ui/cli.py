@@ -9,7 +9,11 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from ..detect import detect_os, detect_hardware, classify_hardware, OSReport, HardwareReport
+from ..detect import (
+    detect_os, detect_hardware, classify_hardware,
+    detect_windows_os, detect_windows_hardware,
+    OSReport, HardwareReport,
+)
 from ..catalog import load_catalog, ManifestValidator
 from ..plan import create_plan, InstallationPlan
 from ..state import AuditLog, StateStore, BackupManager
@@ -163,9 +167,16 @@ class ThorrijaCLI:
         """Inicialización común: detecta HW/SO, carga catálogo."""
         print(format_info("Inicializando Thorrija Environment..."))
 
-        # Detectar SO y HW
-        self.os_report = detect_os()
-        self.hw_report = detect_hardware()
+        import sys
+        is_windows = sys.platform == "win32"
+
+        # Detectar SO y HW según plataforma
+        if is_windows:
+            self.os_report = detect_windows_os()
+            self.hw_report = detect_windows_hardware()
+        else:
+            self.os_report = detect_os()
+            self.hw_report = detect_hardware()
 
         # Clasificar perfil
         if self.args.profile:

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import List, Dict, Any, Optional
 from ..plan import InstallationPlan, ToolPlanEntry, CompatibilityClass
-from ..detect import HardwareReport, OSReport
+from ..detect import HardwareReport
 
 
 class Colors:
@@ -31,7 +31,7 @@ class Colors:
         return text
 
 
-def format_hardware_report(hw: HardwareReport, os_report: OSReport) -> str:
+def format_hardware_report(hw: HardwareReport, os_report: object) -> str:
     lines = []
     c = Colors
 
@@ -67,11 +67,25 @@ def format_hardware_report(hw: HardwareReport, os_report: OSReport) -> str:
     lines.append("")
 
     lines.append(f"{c.BOLD}=== Sistema Operativo ==={c.RESET}")
-    lines.append(f"  Distro:       {os_report.pretty_name}")
-    lines.append(f"  ID:           {os_report.id} ({os_report.version})")
-    lines.append(f"  Gestor pkg:   {os_report.package_manager}")
-    lines.append(f"  Familias:     {', '.join(os_report.package_families) if os_report.package_families else 'ninguna'}")
-    lines.append(f"  Soporte:      {os_report.support_level.upper()}")
+    
+    # Linux OSReport
+    if hasattr(os_report, 'pretty_name'):
+        lines.append(f"  Distro:       {os_report.pretty_name}")
+        lines.append(f"  ID:           {os_report.id} ({os_report.version})")
+        lines.append(f"  Gestor pkg:   {os_report.package_manager}")
+        families = getattr(os_report, 'package_families', [])
+        lines.append(f"  Familias:     {', '.join(families) if families else 'ninguna'}")
+        lines.append(f"  Soporte:      {os_report.support_level.upper()}")
+    # Windows WindowsOSReport
+    elif hasattr(os_report, 'product_name'):
+        lines.append(f"  Producto:     {os_report.product_name}")
+        lines.append(f"  Edición:      {os_report.edition}")
+        lines.append(f"  Versión:      {os_report.version} (build {os_report.build})")
+        lines.append(f"  Windows 11:   {'Sí' if os_report.is_windows_11 else 'No'}")
+        lines.append(f"  Gestores:     {', '.join(os_report.package_managers) if os_report.package_managers else 'ninguno'}")
+        lines.append(f"  Soporte:      {os_report.support_level.upper()}")
+    else:
+        lines.append(f"  Desconocido")
 
     return "\n".join(lines)
 

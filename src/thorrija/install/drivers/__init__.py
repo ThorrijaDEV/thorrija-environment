@@ -8,6 +8,7 @@ from . import binary_release  # noqa: F401
 from . import git_clone   # noqa: F401
 from . import script_official  # noqa: F401
 from . import pipx        # noqa: F401
+from . import windows     # noqa: F401
 
 from ..engine import driver_registry, BaseDriver, DriverResult
 
