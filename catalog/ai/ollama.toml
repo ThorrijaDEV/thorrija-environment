@@ -1,0 +1,58 @@
+# Ollama — Local LLM Runner
+
+schema_version = 1
+
+[tool]
+name = "ollama"
+category = "ai"
+description = "Run large language models locally. Supports GGUF, Safetensors, and other formats. CPU-only mode works but GPU strongly recommended for performance."
+homepage = "https://ollama.com/"
+tags = ["ai", "llm", "local-ai", "models", "inference"]
+
+[requirements]
+ram_run_mb = 8192
+ram_optimal_mb = 24576
+disk_install_mb = 5000
+disk_run_mb = 20000
+gpu = "optional"
+cpu_cores_min = 4
+cpu_arch = ["x86_64", "aarch64"]
+privileged = false
+size_class = "large"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+# Solo Arch Linux tiene paquete oficial en repos (extra/ollama)
+# Las demás familias se omiten (clave ausente = no hay paquete nativo)
+arch = "ollama"
+
+[install.binary_release]
+# Binarios oficiales de GitHub Releases
+# SHA-256 PENDIENTE DE VERIFICACIÓN EN FASE 3.
+# Mientras sean "PENDING-VERIFICATION", el validador marca este método como DESHABILITADO
+# y el planificador reportará: "ollama: binary_release inseguro: hash no pinneado".
+url_template = "https://github.com/ollama/ollama/releases/download/v{version}/ollama-linux-{arch}.tgz"
+version = "0.3.12"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tgz"
+binary_name = "ollama"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[verify]
+command = "ollama --version"
+pattern = "ollama version"
+version_extract = "ollama version (\\S+)"
+exit_code = 0
+timeout_sec = 10
+
+[ai_models]
+automatic = false
+default_models = ["llama3.2:3b", "nomic-embed-text", "qwen2.5:7b"]
+requires_confirmation = true

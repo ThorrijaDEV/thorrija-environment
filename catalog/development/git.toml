@@ -1,0 +1,44 @@
+# Git — Distributed Version Control System
+
+schema_version = 1
+
+[tool]
+name = "git"
+category = "development"
+description = "Fast, scalable, distributed revision control system. Essential for all development workflows."
+homepage = "https://git-scm.com/"
+tags = ["vcs", "cli", "essential", "development"]
+
+[requirements]
+ram_run_mb = 50
+ram_optimal_mb = 200
+disk_install_mb = 100
+disk_run_mb = 50
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "git"
+debian = "git"
+fedora = "git"
+void = "git"
+opensuse = "git"
+alpine = "git"
+gentoo = "dev-vcs/git"
+
+[verify]
+command = "git --version"
+pattern = "git version"
+version_extract = "git version (\\S+)"
+exit_code = 0
+timeout_sec = 5

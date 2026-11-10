@@ -1,0 +1,49 @@
+# Python — Programming Language Runtime
+
+schema_version = 1
+
+[tool]
+name = "python"
+category = "languages"
+description = "Python 3 interpreter and standard library. The motor requires Python ≥ 3.9; this manifest installs/verifies a compatible version."
+homepage = "https://www.python.org/"
+tags = ["language", "runtime", "essential", "scripting", "ai-ml"]
+
+[requirements]
+ram_run_mb = 100
+ram_optimal_mb = 500
+disk_install_mb = 200
+disk_run_mb = 100
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "medium"
+network_required = false
+python_min = "3.9"
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "python"
+debian = "python3"
+fedora = "python3"
+void = "python3.11"
+opensuse = "python3"
+alpine = "python3"
+gentoo = "dev-lang/python:3.11"
+
+# Nota: En Void Linux el paquete se llama python3.11 (o python3.12).
+# Este valor es ASSUMED — requiere verificación real en FASE 3.
+# En Ubuntu 20.04 python3 = 3.8 (< 3.9) → el planificador lo marcará incompatible
+# aunque el paquete exista, por el requisito python_min = "3.9".
+
+[verify]
+command = "python3 --version"
+pattern = "Python 3\\.(9|1[0-9])\\."
+version_extract = "Python (\\S+)"
+exit_code = 0
+timeout_sec = 5
