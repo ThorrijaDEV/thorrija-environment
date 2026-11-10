@@ -34,7 +34,7 @@ def load_fixture_hw(name: str):
 
 
 def test_full_flow_minimal_low_end():
-    """Flujo completo: hw minimal → low_end → plan con git+python."""
+    """Flujo completo: hw minimal → low_end → plan con herramientas enabled."""
     hw = load_fixture_hw("hw-minimal")
     os_report = detect_os()
     profile = classify_hardware(hw)
@@ -45,7 +45,9 @@ def test_full_flow_minimal_low_end():
 
     enabled = plan.get_enabled_entries()
     names = {e.tool.name for e in enabled}
-    assert names == {"git", "python"}
+    assert "git" in names
+    assert "python" in names
+    assert "ollama" not in names  # excluded en low_end
 
     # Ollama excluido
     excluded = plan.get_excluded_entries()
@@ -54,7 +56,7 @@ def test_full_flow_minimal_low_end():
 
 
 def test_full_flow_standard():
-    """Flujo completo: hw standard → standard → plan con 3 herramientas."""
+    """Flujo completo: hw standard → standard → plan con herramientas enabled + optional."""
     hw = load_fixture_hw("hw-standard")
     os_report = detect_os()
     profile = classify_hardware(hw)
@@ -65,10 +67,9 @@ def test_full_flow_standard():
 
     enabled = plan.get_enabled_entries()
     names = {e.tool.name for e in enabled}
-    # ollama es optional en standard, con include_optional=True se incluye
     assert "git" in names
     assert "python" in names
-    assert "ollama" in names
+    assert "ollama" in names  # optional en standard
 
 
 def test_full_flow_high_end_workstation():
@@ -83,7 +84,9 @@ def test_full_flow_high_end_workstation():
 
     enabled = plan.get_enabled_entries()
     names = {e.tool.name for e in enabled}
-    assert names == {"git", "python", "ollama"}
+    assert "git" in names
+    assert "python" in names
+    assert "ollama" in names
 
     # Verificar compatibilidad óptima para ollama
     ollama_entry = next(e for e in plan.entries if e.tool.name == "ollama")
@@ -134,7 +137,7 @@ def test_audit_log_integration():
                 )
 
         entries = audit.read_session("integration-test")
-        assert len(entries) >= 2  # git, python al menos
+        assert len(entries) >= 2
         tools = {e["tool"] for e in entries}
         assert "git" in tools
         assert "python" in tools

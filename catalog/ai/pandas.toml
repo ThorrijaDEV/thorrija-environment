@@ -1,0 +1,49 @@
+# pandas — Data Analysis Library
+
+schema_version = 1
+
+[tool]
+name = "pandas"
+category = "ai"
+description = "pandas - powerful data structures for data analysis, time series, and statistics."
+homepage = "https://pandas.pydata.org/"
+tags = ["ai", "data", "analysis", "dataframe", "essential"]
+
+[requirements]
+ram_run_mb = 256
+ram_optimal_mb = 512
+disk_install_mb = 150
+disk_run_mb = 50
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = false
+size_class = "medium"
+network_required = true
+python_min = "3.9"
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "python-pandas"
+debian = "python3-pandas"
+fedora = "python3-pandas"
+void = "python3-pandas"
+opensuse = "python3-pandas"
+alpine = "py3-pandas"
+gentoo = "dev-python/pandas"
+
+[install.pipx]
+package = "pandas"
+version = "2.2.2"
+python = "3.9"
+
+[verify]
+command = "python3 -c \"import pandas; print(pandas.__version__)\""
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 10

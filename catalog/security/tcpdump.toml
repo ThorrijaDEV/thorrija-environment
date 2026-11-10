@@ -1,0 +1,44 @@
+# tcpdump — Packet Capture Tool
+
+schema_version = 1
+
+[tool]
+name = "tcpdump"
+category = "security"
+description = "tcpdump - command-line packet analyzer for network troubleshooting."
+homepage = "https://www.tcpdump.org/"
+tags = ["security", "network", "packet-capture", "pcap", "cli"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 20
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "tcpdump"
+debian = "tcpdump"
+fedora = "tcpdump"
+void = "tcpdump"
+opensuse = "tcpdump"
+alpine = "tcpdump"
+gentoo = "net-analyzer/tcpdump"
+
+[verify]
+command = "tcpdump --version"
+pattern = "tcpdump version"
+version_extract = "tcpdump version (\\S+)"
+exit_code = 0
+timeout_sec = 5

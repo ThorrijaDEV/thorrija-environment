@@ -1,0 +1,61 @@
+# fzf — Fuzzy Finder
+
+schema_version = 1
+
+[tool]
+name = "fzf"
+category = "system"
+description = "fzf - general-purpose command-line fuzzy finder."
+homepage = "https://github.com/junegunn/fzf"
+tags = ["shell", "fuzzy", "finder", "interactive", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "fzf"
+debian = "fzf"
+fedora = "fzf"
+void = "fzf"
+opensuse = "fzf"
+alpine = "fzf"
+gentoo = "app-shells/fzf"
+
+[install.binary_release]
+url_template = "https://github.com/junegunn/fzf/releases/download/v{version}/fzf-{version}-linux_{arch}.tar.gz"
+version = "0.57.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "fzf"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[install.git_clone]
+url = "https://github.com/junegunn/fzf.git"
+branch = "master"
+build_system = "custom"
+build_args = ["./install --all --no-bash --no-fish --no-zsh"]
+binary_path = "bin/fzf"
+install_to = "~/.local/bin"
+
+[verify]
+command = "fzf --version"
+pattern = "\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

@@ -1,0 +1,51 @@
+# PyTorch — Deep Learning Framework
+
+schema_version = 1
+
+[tool]
+name = "pytorch"
+category = "ai"
+description = "PyTorch - tensor computation with GPU acceleration and deep neural networks."
+homepage = "https://pytorch.org/"
+tags = ["ai", "ml", "deep-learning", "tensor", "gpu", "cuda"]
+
+[requirements]
+ram_run_mb = 2048
+ram_optimal_mb = 8192
+disk_install_mb = 2000
+disk_run_mb = 1000
+gpu = "optional"
+cpu_cores_min = 4
+cpu_arch = ["x86_64", "aarch64"]
+privileged = false
+size_class = "large"
+network_required = true
+python_min = "3.9"
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "python-pytorch"
+debian = "python3-torch"
+fedora = "python3-pytorch"
+opensuse = "python3-pytorch"
+
+[install.pipx]
+package = "torch"
+version = "2.4.1"
+python = "3.9"
+
+[verify]
+command = "python3 -c \"import torch; print(torch.__version__)\""
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 10
+
+[ai_models]
+automatic = false
+default_models = []
+requires_confirmation = true

@@ -1,0 +1,53 @@
+# Neovim — Hyperextensible Text Editor
+
+schema_version = 1
+
+[tool]
+name = "neovim"
+category = "editors"
+description = "Neovim - hyperextensible Vim-based text editor with Lua scripting."
+homepage = "https://neovim.io/"
+tags = ["editor", "vim", "lua", "terminal", "essential"]
+
+[requirements]
+ram_run_mb = 64
+ram_optimal_mb = 256
+disk_install_mb = 50
+disk_run_mb = 20
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = "3.9"
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "neovim"
+debian = "neovim"
+fedora = "neovim"
+void = "neovim"
+opensuse = "neovim"
+alpine = "neovim"
+gentoo = "app-editors/neovim"
+
+[install.binary_release]
+url_template = "https://github.com/neovim/neovim/releases/download/v{version}/nvim-linux-{arch}.tar.gz"
+version = "0.10.1"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "nvim"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "nvim --version | head -1"
+pattern = "NVIM v"
+version_extract = "NVIM v(\\S+)"
+exit_code = 0
+timeout_sec = 5

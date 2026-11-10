@@ -1,0 +1,53 @@
+# Node.js — JavaScript Runtime
+
+schema_version = 1
+
+[tool]
+name = "nodejs"
+category = "languages"
+description = "Node.js JavaScript runtime with npm. LTS version recommended."
+homepage = "https://nodejs.org/"
+tags = ["language", "javascript", "npm", "runtime", "web"]
+
+[requirements]
+ram_run_mb = 128
+ram_optimal_mb = 512
+disk_install_mb = 200
+disk_run_mb = 100
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "medium"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "nodejs"
+debian = "nodejs"
+fedora = "nodejs"
+void = "nodejs-20"
+opensuse = "nodejs20"
+alpine = "nodejs"
+gentoo = "net-libs/nodejs"
+
+[install.binary_release]
+url_template = "https://nodejs.org/dist/v{version}/node-v{version}-linux-{arch}.tar.xz"
+version = "20.18.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.xz"
+binary_name = "node"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "node --version"
+pattern = "^v\\d+\\.\\d+\\.\\d+"
+version_extract = "v(\\S+)"
+exit_code = 0
+timeout_sec = 5

@@ -1,0 +1,44 @@
+# OpenSSL — Cryptography Toolkit
+
+schema_version = 1
+
+[tool]
+name = "openssl"
+category = "security"
+description = "OpenSSL - robust, commercial-grade, full-featured toolkit for TLS and cryptography."
+homepage = "https://www.openssl.org/"
+tags = ["security", "crypto", "tls", "ssl", "certificates", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 20
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "openssl"
+debian = "openssl"
+fedora = "openssl"
+void = "openssl"
+opensuse = "openssl"
+alpine = "openssl"
+gentoo = "dev-libs/openssl"
+
+[verify]
+command = "openssl version"
+pattern = "OpenSSL"
+version_extract = "OpenSSL (\\S+)"
+exit_code = 0
+timeout_sec = 5

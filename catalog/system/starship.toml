@@ -1,0 +1,53 @@
+# Starship — Cross-Shell Prompt
+
+schema_version = 1
+
+[tool]
+name = "starship"
+category = "system"
+description = "Starship - minimal, blazing-fast, infinitely customizable prompt for any shell."
+homepage = "https://starship.rs/"
+tags = ["shell", "prompt", "rust", "cross-shell", "essential"]
+
+[requirements]
+ram_run_mb = 16
+ram_optimal_mb = 32
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "starship"
+debian = "starship"
+fedora = "starship"
+void = "starship"
+opensuse = "starship"
+alpine = "starship"
+gentoo = "app-shells/starship"
+
+[install.binary_release]
+url_template = "https://github.com/starship/starship/releases/download/v{version}/starship-{arch}-unknown-linux-gnu.tar.gz"
+version = "1.20.1"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "starship"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[verify]
+command = "starship --version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

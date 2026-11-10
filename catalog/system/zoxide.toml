@@ -1,0 +1,53 @@
+# zoxide — Smarter cd Command
+
+schema_version = 1
+
+[tool]
+name = "zoxide"
+category = "system"
+description = "zoxide - smarter cd command that learns your habits."
+homepage = "https://github.com/ajeetdsouza/zoxide"
+tags = ["shell", "navigation", "cd", "fzf-companion", "rust"]
+
+[requirements]
+ram_run_mb = 16
+ram_optimal_mb = 32
+disk_install_mb = 5
+disk_run_mb = 2
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "zoxide"
+debian = "zoxide"
+fedora = "zoxide"
+void = "zoxide"
+opensuse = "zoxide"
+alpine = "zoxide"
+gentoo = "app-shells/zoxide"
+
+[install.binary_release]
+url_template = "https://github.com/ajeetdsouza/zoxide/releases/download/v{version}/zoxide-{arch}-unknown-linux-musl.tar.gz"
+version = "0.9.6"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "zoxide"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[verify]
+command = "zoxide --version"
+pattern = "zoxide \\d+\\.\\d+\\.\\d+"
+version_extract = "zoxide (\\S+)"
+exit_code = 0
+timeout_sec = 5

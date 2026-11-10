@@ -1,0 +1,53 @@
+# fd — Fast Find Alternative
+
+schema_version = 1
+
+[tool]
+name = "fd"
+category = "system"
+description = "fd - simple, fast, user-friendly alternative to find."
+homepage = "https://github.com/sharkdp/fd"
+tags = ["find", "search", "rust", "fast", "user-friendly"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "fd"
+debian = "fd-find"
+fedora = "fd-find"
+void = "fd"
+opensuse = "fd"
+alpine = "fd"
+gentoo = "app-misc/fd"
+
+[install.binary_release]
+url_template = "https://github.com/sharkdp/fd/releases/download/v{version}/fd-v{version}-{arch}-unknown-linux-gnu.tar.gz"
+version = "10.1.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "fd"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "fd --version"
+pattern = "fd \\d+\\.\\d+\\.\\d+"
+version_extract = "fd (\\S+)"
+exit_code = 0
+timeout_sec = 5

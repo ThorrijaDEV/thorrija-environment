@@ -1,0 +1,53 @@
+# lazygit — Terminal UI for Git
+
+schema_version = 1
+
+[tool]
+name = "lazygit"
+category = "system"
+description = "lazygit - simple terminal UI for git commands."
+homepage = "https://github.com/jesseduffield/lazygit"
+tags = ["git", "tui", "terminal", "lazy", "go"]
+
+[requirements]
+ram_run_mb = 64
+ram_optimal_mb = 128
+disk_install_mb = 20
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "lazygit"
+debian = "lazygit"
+fedora = "lazygit"
+void = "lazygit"
+opensuse = "lazygit"
+alpine = "lazygit"
+gentoo = "dev-vcs/lazygit"
+
+[install.binary_release]
+url_template = "https://github.com/jesseduffield/lazygit/releases/download/v{version}/lazygit_{version}_Linux_{arch}.tar.gz"
+version = "0.44.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "lazygit"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[verify]
+command = "lazygit --version"
+pattern = "lazygit version"
+version_extract = "lazygit version (\\S+)"
+exit_code = 0
+timeout_sec = 5

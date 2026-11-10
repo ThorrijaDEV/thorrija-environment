@@ -1,0 +1,49 @@
+# Docker — Container Platform
+
+schema_version = 1
+
+[tool]
+name = "docker"
+category = "development"
+description = "Docker Engine - container platform for building, running, and sharing containers."
+homepage = "https://www.docker.com/"
+tags = ["container", "docker", "devops", "virtualization"]
+
+[requirements]
+ram_run_mb = 1024
+ram_optimal_mb = 2048
+disk_install_mb = 500
+disk_run_mb = 10000
+gpu = "optional"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "large"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "docker"
+debian = "docker.io"
+fedora = "docker"
+void = "docker"
+opensuse = "docker"
+alpine = "docker"
+gentoo = "app-containers/docker"
+
+[install.script_official]
+url = "https://get.docker.com"
+sha256 = "PENDING-VERIFICATION"
+args = []
+
+[verify]
+command = "docker --version"
+pattern = "Docker version"
+version_extract = "Docker version (\\S+)"
+exit_code = 0
+timeout_sec = 10

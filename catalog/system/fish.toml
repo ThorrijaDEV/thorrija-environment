@@ -1,0 +1,44 @@
+# fish — Friendly Interactive Shell
+
+schema_version = 1
+
+[tool]
+name = "fish"
+category = "system"
+description = "fish - smart and user-friendly command line shell."
+homepage = "https://fishshell.com/"
+tags = ["shell", "interactive", "completions", "scripting", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 20
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "fish"
+debian = "fish"
+fedora = "fish"
+void = "fish"
+opensuse = "fish"
+alpine = "fish"
+gentoo = "app-shells/fish"
+
+[verify]
+command = "fish --version"
+pattern = "fish, version"
+version_extract = "fish, version (\\S+)"
+exit_code = 0
+timeout_sec = 5

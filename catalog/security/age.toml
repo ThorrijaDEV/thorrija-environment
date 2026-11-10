@@ -1,0 +1,53 @@
+# age — Simple Encryption Tool
+
+schema_version = 1
+
+[tool]
+name = "age"
+category = "security"
+description = "age - simple, modern, secure file encryption tool."
+homepage = "https://github.com/FiloSottile/age"
+tags = ["security", "encryption", "simple", "modern", "file-encryption"]
+
+[requirements]
+ram_run_mb = 16
+ram_optimal_mb = 32
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "age"
+debian = "age"
+fedora = "age"
+void = "age"
+opensuse = "age"
+alpine = "age"
+gentoo = "app-crypt/age"
+
+[install.binary_release]
+url_template = "https://github.com/FiloSottile/age/releases/download/v{version}/age-v{version}-linux-{arch}.tar.gz"
+version = "1.2.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "age"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "age --version"
+pattern = "age \\d+\\.\\d+\\.\\d+"
+version_extract = "age (\\S+)"
+exit_code = 0
+timeout_sec = 5

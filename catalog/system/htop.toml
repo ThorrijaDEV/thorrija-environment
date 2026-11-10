@@ -1,0 +1,44 @@
+# htop — Interactive Process Viewer
+
+schema_version = 1
+
+[tool]
+name = "htop"
+category = "system"
+description = "htop - interactive process viewer for Unix systems."
+homepage = "https://htop.dev/"
+tags = ["monitor", "processes", "interactive", "classic"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "htop"
+debian = "htop"
+fedora = "htop"
+void = "htop"
+opensuse = "htop"
+alpine = "htop"
+gentoo = "sys-process/htop"
+
+[verify]
+command = "htop --version | head -1"
+pattern = "htop "
+version_extract = "htop (\\S+)"
+exit_code = 0
+timeout_sec = 5

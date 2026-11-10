@@ -1,0 +1,53 @@
+# ripgrep — Fast Search Tool
+
+schema_version = 1
+
+[tool]
+name = "ripgrep"
+category = "system"
+description = "ripgrep - recursively searches directories for a regex pattern (faster than grep)."
+homepage = "https://github.com/BurntSushi/ripgrep"
+tags = ["search", "grep", "rust", "fast", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "ripgrep"
+debian = "ripgrep"
+fedora = "ripgrep"
+void = "ripgrep"
+opensuse = "ripgrep"
+alpine = "ripgrep"
+gentoo = "app-text/ripgrep"
+
+[install.binary_release]
+url_template = "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-{arch}-unknown-linux-musl.tar.gz"
+version = "14.1.1"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "rg"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "rg --version | head -1"
+pattern = "ripgrep \\d+\\.\\d+\\.\\d+"
+version_extract = "ripgrep (\\S+)"
+exit_code = 0
+timeout_sec = 5

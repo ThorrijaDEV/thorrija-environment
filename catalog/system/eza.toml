@@ -1,0 +1,53 @@
+# eza — Modern ls Replacement
+
+schema_version = 1
+
+[tool]
+name = "eza"
+category = "system"
+description = "eza - modern, maintained replacement for ls with colors, git status, and more."
+homepage = "https://github.com/eza-community/eza"
+tags = ["ls", "rust", "colors", "git", "modern"]
+
+[requirements]
+ram_run_mb = 16
+ram_optimal_mb = 32
+disk_install_mb = 5
+disk_run_mb = 2
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "eza"
+debian = "eza"
+fedora = "eza"
+void = "eza"
+opensuse = "eza"
+alpine = "eza"
+gentoo = "sys-apps/eza"
+
+[install.binary_release]
+url_template = "https://github.com/eza-community/eza/releases/download/v{version}/eza_{arch}-unknown-linux-gnu.tar.gz"
+version = "0.19.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "eza"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "eza --version"
+pattern = "eza v\\d+\\.\\d+\\.\\d+"
+version_extract = "eza v(\\S+)"
+exit_code = 0
+timeout_sec = 5

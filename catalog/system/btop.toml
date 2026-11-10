@@ -1,0 +1,53 @@
+# btop — Resource Monitor
+
+schema_version = 1
+
+[tool]
+name = "btop"
+category = "system"
+description = "btop - resource monitor with graphs, process list, and detailed stats."
+homepage = "https://github.com/aristocratos/btop"
+tags = ["monitor", "htop", "graphs", "processes", "system"]
+
+[requirements]
+ram_run_mb = 64
+ram_optimal_mb = 128
+disk_install_mb = 20
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "btop"
+debian = "btop"
+fedora = "btop"
+void = "btop"
+opensuse = "btop"
+alpine = "btop"
+gentoo = "app-admin/btop"
+
+[install.binary_release]
+url_template = "https://github.com/aristocratos/btop/releases/download/v{version}/btop-{arch}-linux-musl.tbz"
+version = "1.3.2"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.bz2"
+binary_name = "btop"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "btop --version"
+pattern = "btop v\\d+\\.\\d+\\.\\d+"
+version_extract = "btop v(\\S+)"
+exit_code = 0
+timeout_sec = 5

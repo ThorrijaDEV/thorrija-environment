@@ -1,0 +1,53 @@
+# Zig — Modern Systems Programming Language
+
+schema_version = 1
+
+[tool]
+name = "zig"
+category = "languages"
+description = "Zig programming language - modern, optimal, and safe systems language."
+homepage = "https://ziglang.org/"
+tags = ["language", "systems", "c-interop", "modern"]
+
+[requirements]
+ram_run_mb = 256
+ram_optimal_mb = 512
+disk_install_mb = 150
+disk_run_mb = 50
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "zig"
+debian = "zig"
+fedora = "zig"
+void = "zig"
+opensuse = "zig"
+alpine = "zig"
+gentoo = "dev-lang/zig"
+
+[install.binary_release]
+url_template = "https://ziglang.org/builds/zig-linux-{arch}-{version}.tar.xz"
+version = "0.13.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.xz"
+binary_name = "zig"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "zig version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

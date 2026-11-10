@@ -1,0 +1,49 @@
+# Meson — Modern Build System
+
+schema_version = 1
+
+[tool]
+name = "meson"
+category = "development"
+description = "Meson - modern, fast, user-friendly build system."
+homepage = "https://mesonbuild.com/"
+tags = ["build", "meson", "python-based", "modern"]
+
+[requirements]
+ram_run_mb = 64
+ram_optimal_mb = 128
+disk_install_mb = 30
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = "3.9"
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "meson"
+debian = "meson"
+fedora = "meson"
+void = "meson"
+opensuse = "meson"
+alpine = "meson"
+gentoo = "dev-util/meson"
+
+[install.pipx]
+package = "mesonbuild"
+version = "1.6.0"
+python = "3.9"
+
+[verify]
+command = "meson --version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

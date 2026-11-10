@@ -1,0 +1,53 @@
+# Java — OpenJDK Runtime
+
+schema_version = 1
+
+[tool]
+name = "java"
+category = "languages"
+description = "OpenJDK 21 LTS Java runtime and development kit."
+homepage = "https://openjdk.org/"
+tags = ["language", "jvm", "jdk", "enterprise"]
+
+[requirements]
+ram_run_mb = 512
+ram_optimal_mb = 1024
+disk_install_mb = 400
+disk_run_mb = 200
+gpu = "none"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "large"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "jdk-openjdk"
+debian = "openjdk-21-jdk-headless"
+fedora = "java-21-openjdk-devel"
+void = "openjdk21"
+opensuse = "java-21-openjdk"
+alpine = "openjdk21"
+gentoo = "virtual/jdk:21"
+
+[install.binary_release]
+url_template = "https://download.java.net/java/GA/jdk{version}/binaries/openjdk-{version}_linux-{arch}_bin.tar.gz"
+version = "21.0.4"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "java"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "java -version 2>&1 | head -1"
+pattern = "openjdk version"
+version_extract = "openjdk version \"(\\S+)\""
+exit_code = 0
+timeout_sec = 5

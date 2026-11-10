@@ -18,12 +18,17 @@ CATALOG_DIR = Path(__file__).parent.parent.parent / "catalog"
 
 
 def test_load_catalog_finds_manifests():
-    """Carga catálogo y encuentra los 3 manifiestos de ejemplo."""
+    """Carga catálogo y encuentra todos los manifiestos."""
     manifests = load_catalog(str(CATALOG_DIR))
-    assert len(manifests) == 3
+    assert len(manifests) >= 50  # 51 manifiestos en catálogo completo
 
     names = {m.name for m in manifests}
-    assert names == {"git", "python", "ollama"}
+    # Verificar que los 3 originales están presentes
+    assert {"git", "python", "ollama"}.issubset(names)
+    # Verificar que hay al menos 6 categorías
+    categories = {m.category for m in manifests}
+    assert len(categories) >= 6
+    assert {"languages", "development", "editors", "ai", "security", "system"}.issubset(categories)
 
 
 def test_manifest_structure_git():
@@ -104,19 +109,17 @@ def test_manifest_structure_ollama():
 
 
 def test_validate_all_manifests_pass():
-    """Validador: todos los manifiestos pasan (warnings esperados para ollama)."""
+    """Validador: todos los manifiestos pasan (warnings esperados para PENDING-VERIFICATION)."""
     validator = ManifestValidator()
     results = validator.validate_all(CATALOG_DIR)
 
-    assert len(results) == 3
+    assert len(results) >= 50
     for r in results:
         assert r.valid is True, f"Manifiesto inválido: {r.file} - {r.errors}"
 
-    # Verificar warnings de ollama
-    ollama_result = next(r for r in results if "ollama" in r.file)
-    assert len(ollama_result.warnings) == 2
-    for w in ollama_result.warnings:
-        assert "PENDING-VERIFICATION" in w
+    # Verificar que hay warnings de PENDING-VERIFICATION
+    total_warnings = sum(len(r.warnings) for r in results)
+    assert total_warnings >= 60  # muchos PENDING-VERIFICATION
 
 
 def test_filter_by_category():
@@ -125,16 +128,16 @@ def test_filter_by_category():
     loader = ManifestLoader(str(CATALOG_DIR))
 
     dev_tools = loader.filter_by_category(manifests, "development")
-    assert len(dev_tools) == 1
-    assert dev_tools[0].name == "git"
+    assert len(dev_tools) >= 8  # git, gh, cmake, make, ninja, meson, pkgconf, docker, podman, direnv
 
     ai_tools = loader.filter_by_category(manifests, "ai")
-    assert len(ai_tools) == 1
-    assert ai_tools[0].name == "ollama"
+    assert len(ai_tools) >= 8  # ollama, litellm, llama-cpp, whisper-cpp, pytorch, numpy, pandas, scikit-learn
 
     lang_tools = loader.filter_by_category(manifests, "languages")
-    assert len(lang_tools) == 1
-    assert lang_tools[0].name == "python"
+    assert len(lang_tools) >= 8  # python, rust, go, nodejs, java, zig, bun, deno
+
+    security_tools = loader.filter_by_category(manifests, "security")
+    assert len(security_tools) >= 7  # nmap, wireshark-cli, tcpdump, openssl, gpg, age, ssh-audit, lynis
 
 
 def test_filter_by_profile():
@@ -142,20 +145,26 @@ def test_filter_by_profile():
     manifests = load_catalog(str(CATALOG_DIR))
     loader = ManifestLoader(str(CATALOG_DIR))
 
-    # low_end: solo git y python (ollama excluded)
+    # low_end: herramientas enabled en low_end
     low = loader.filter_by_profile(manifests, "low_end")
     names = {m.name for m in low}
-    assert names == {"git", "python"}
+    assert "git" in names
+    assert "python" in names
+    assert "ollama" not in names  # excluded en low_end
 
-    # standard: git, python, ollama (optional)
+    # standard: git, python, ollama (optional), y muchas más
     std = loader.filter_by_profile(manifests, "standard")
     names = {m.name for m in std}
-    assert names == {"git", "python", "ollama"}
+    assert "git" in names
+    assert "python" in names
+    assert "ollama" in names  # optional en standard
 
-    # high_end: todos
+    # high_end: todos enabled + optional
     high = loader.filter_by_profile(manifests, "high_end")
     names = {m.name for m in high}
-    assert names == {"git", "python", "ollama"}
+    assert "git" in names
+    assert "python" in names
+    assert "ollama" in names
 
 
 def test_dependency_resolver_basic():
@@ -167,11 +176,9 @@ def test_dependency_resolver_basic():
     plan = resolver.resolve(["git"])
     assert "git" in plan.install_order
 
-    # python como dependencia
-    # (actualmente el resolver infiere python para ai/development)
+    # ollama depende de python (inferido)
     plan = resolver.resolve(["ollama"])
     assert "ollama" in plan.install_order
-    # python puede o no estar según inferencia actual
 
 
 def test_resolve_dependencies_convenience():

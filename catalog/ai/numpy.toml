@@ -1,0 +1,49 @@
+# NumPy — Numerical Computing
+
+schema_version = 1
+
+[tool]
+name = "numpy"
+category = "ai"
+description = "NumPy - fundamental package for scientific computing with Python."
+homepage = "https://numpy.org/"
+tags = ["ai", "ml", "scientific", "array", "math", "essential"]
+
+[requirements]
+ram_run_mb = 128
+ram_optimal_mb = 256
+disk_install_mb = 100
+disk_run_mb = 50
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = false
+size_class = "medium"
+network_required = true
+python_min = "3.9"
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "python-numpy"
+debian = "python3-numpy"
+fedora = "python3-numpy"
+void = "python3-numpy"
+opensuse = "python3-numpy"
+alpine = "py3-numpy"
+gentoo = "dev-python/numpy"
+
+[install.pipx]
+package = "numpy"
+version = "1.26.4"
+python = "3.9"
+
+[verify]
+command = "python3 -c \"import numpy; print(numpy.__version__)\""
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 10

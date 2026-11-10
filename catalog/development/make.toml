@@ -1,0 +1,44 @@
+# Make — Build Automation Tool
+
+schema_version = 1
+
+[tool]
+name = "make"
+category = "development"
+description = "GNU Make - build automation tool."
+homepage = "https://www.gnu.org/software/make/"
+tags = ["build", "make", "automation", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "make"
+debian = "make"
+fedora = "make"
+void = "make"
+opensuse = "make"
+alpine = "make"
+gentoo = "sys-devel/make"
+
+[verify]
+command = "make --version"
+pattern = "GNU Make"
+version_extract = "GNU Make (\\S+)"
+exit_code = 0
+timeout_sec = 5

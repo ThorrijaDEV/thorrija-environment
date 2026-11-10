@@ -36,10 +36,14 @@ opensuse = "python3"
 alpine = "python3"
 gentoo = "dev-lang/python:3.11"
 
-# Nota: En Void Linux el paquete se llama python3.11 (o python3.12).
-# Este valor es ASSUMED — requiere verificación real en FASE 3.
-# En Ubuntu 20.04 python3 = 3.8 (< 3.9) → el planificador lo marcará incompatible
-# aunque el paquete exista, por el requisito python_min = "3.9".
+[install.binary_release]
+url_template = "https://www.python.org/ftp/python/{version}/Python-{version}.tar.xz"
+version = "3.12.7"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.xz"
+binary_name = "python3"
+install_to = "~/.local/bin"
+strip_components = 1
 
 [verify]
 command = "python3 --version"

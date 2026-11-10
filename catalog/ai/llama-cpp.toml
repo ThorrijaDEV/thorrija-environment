@@ -1,0 +1,43 @@
+# llama.cpp — LLM Inference in C/C++
+
+schema_version = 1
+
+[tool]
+name = "llama-cpp"
+category = "ai"
+description = "llama.cpp - LLM inference in C/C++ with minimal dependencies. Supports GGUF, Metal, CUDA, Vulkan."
+homepage = "https://github.com/ggerganov/llama.cpp"
+tags = ["ai", "llm", "inference", "gguf", "cpu", "cuda", "metal"]
+
+[requirements]
+ram_run_mb = 2048
+ram_optimal_mb = 8192
+disk_install_mb = 500
+disk_run_mb = 100
+gpu = "optional"
+cpu_cores_min = 4
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "medium"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.git_clone]
+url = "https://github.com/ggerganov/llama.cpp.git"
+branch = "master"
+build_system = "cmake"
+build_args = ["-DLLAMA_CURL=ON"]
+binary_path = "llama-cli"
+install_to = "~/.local/bin"
+
+[verify]
+command = "llama-cli --version 2>&1 || llama-cli -h 2>&1 | head -1"
+pattern = "llama.cpp"
+version_extract = ""
+exit_code = 0
+timeout_sec = 10

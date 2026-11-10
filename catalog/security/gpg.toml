@@ -1,0 +1,44 @@
+# GnuPG — Encryption and Signing
+
+schema_version = 1
+
+[tool]
+name = "gpg"
+category = "security"
+description = "GnuPG - complete and free implementation of the OpenPGP standard."
+homepage = "https://gnupg.org/"
+tags = ["security", "encryption", "pgp", "signing", "keys", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 20
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "gnupg"
+debian = "gnupg"
+fedora = "gnupg2"
+void = "gnupg"
+opensuse = "gpg2"
+alpine = "gnupg"
+gentoo = "app-crypt/gnupg"
+
+[verify]
+command = "gpg --version | head -1"
+pattern = "gpg "
+version_extract = "gpg (\\S+)"
+exit_code = 0
+timeout_sec = 5

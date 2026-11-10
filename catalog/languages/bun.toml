@@ -1,0 +1,52 @@
+# Bun — Fast JavaScript Runtime
+
+schema_version = 1
+
+[tool]
+name = "bun"
+category = "languages"
+description = "Bun - fast all-in-one JavaScript runtime, bundler, and package manager."
+homepage = "https://bun.sh/"
+tags = ["language", "javascript", "runtime", "bundler", "package-manager"]
+
+[requirements]
+ram_run_mb = 128
+ram_optimal_mb = 256
+disk_install_mb = 100
+disk_run_mb = 50
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = false
+size_class = "small"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "bun"
+
+[install.binary_release]
+url_template = "https://github.com/oven-sh/bun/releases/download/bun-v{version}/bun-linux-{arch}.zip"
+version = "1.1.17"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "zip"
+binary_name = "bun"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[install.script_official]
+url = "https://bun.sh/install"
+sha256 = "PENDING-VERIFICATION"
+args = []
+
+[verify]
+command = "bun --version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

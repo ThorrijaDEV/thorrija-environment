@@ -1,0 +1,52 @@
+# code-server — VS Code in Browser
+
+schema_version = 1
+
+[tool]
+name = "code-server"
+category = "editors"
+description = "code-server - run VS Code on any machine and access it in the browser."
+homepage = "https://github.com/coder/code-server"
+tags = ["editor", "remote", "browser", "vscode", "self-hosted"]
+
+[requirements]
+ram_run_mb = 512
+ram_optimal_mb = 1024
+disk_install_mb = 200
+disk_run_mb = 500
+gpu = "optional"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64"]
+privileged = false
+size_class = "medium"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "code-server"
+
+[install.binary_release]
+url_template = "https://github.com/coder/code-server/releases/download/v{version}/code-server-{version}-linux-{arch}.tar.gz"
+version = "4.96.4"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "code-server"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[install.script_official]
+url = "https://code-server.dev/install.sh"
+sha256 = "PENDING-VERIFICATION"
+args = []
+
+[verify]
+command = "code-server --version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 10

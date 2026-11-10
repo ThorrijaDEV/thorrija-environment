@@ -1,0 +1,53 @@
+# GitHub CLI — GitHub Command Line Interface
+
+schema_version = 1
+
+[tool]
+name = "gh"
+category = "development"
+description = "GitHub CLI - work with GitHub from the command line."
+homepage = "https://cli.github.com/"
+tags = ["github", "cli", "git", "ci", "pr", "issues"]
+
+[requirements]
+ram_run_mb = 50
+ram_optimal_mb = 100
+disk_install_mb = 50
+disk_run_mb = 20
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "github-cli"
+debian = "gh"
+fedora = "gh"
+void = "gh"
+opensuse = "gh"
+alpine = "github-cli"
+gentoo = "dev-vcs/gh"
+
+[install.binary_release]
+url_template = "https://github.com/cli/cli/releases/download/v{version}/gh_{version}_linux_{arch}.tar.gz"
+version = "2.55.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "gh"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "gh --version"
+pattern = "gh version"
+version_extract = "gh version (\\S+)"
+exit_code = 0
+timeout_sec = 5

@@ -1,0 +1,53 @@
+# bat — cat Clone with Syntax Highlighting
+
+schema_version = 1
+
+[tool]
+name = "bat"
+category = "system"
+description = "bat - cat clone with syntax highlighting and Git integration."
+homepage = "https://github.com/sharkdp/bat"
+tags = ["cat", "syntax-highlighting", "git", "rust", "pager"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "bat"
+debian = "bat"
+fedora = "bat"
+void = "bat"
+opensuse = "bat"
+alpine = "bat"
+gentoo = "app-misc/bat"
+
+[install.binary_release]
+url_template = "https://github.com/sharkdp/bat/releases/download/v{version}/bat-v{version}-{arch}-unknown-linux-gnu.tar.gz"
+version = "0.24.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "bat"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "bat --version"
+pattern = "bat \\d+\\.\\d+\\.\\d+"
+version_extract = "bat (\\S+)"
+exit_code = 0
+timeout_sec = 5

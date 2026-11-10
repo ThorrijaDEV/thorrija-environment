@@ -33,7 +33,7 @@ def load_fixture(name: str) -> HardwareReport:
 
 
 def test_create_plan_basic():
-    """Creación básica de plan."""
+    """Creación básica de plan con catálogo completo."""
     manifests = load_catalog(str(CATALOG_DIR))
     hw = detect_hardware()
 
@@ -43,11 +43,11 @@ def test_create_plan_basic():
     plan = create_plan(manifests, hw, os_report, "standard")
     assert isinstance(plan, InstallationPlan)
     assert plan.profile == "standard"
-    assert len(plan.entries) == 3  # git, python, ollama
+    assert len(plan.entries) >= 50  # catálogo completo
 
 
 def test_plan_minimal_profile_excludes_ollama():
-    """Perfil minimal excluye ollama."""
+    """Perfil low_end excluye ollama y herramientas pesadas."""
     manifests = load_catalog(str(CATALOG_DIR))
     hw = load_fixture("hw-minimal")
 
@@ -60,6 +60,9 @@ def test_plan_minimal_profile_excludes_ollama():
     assert "ollama" not in names
     assert "git" in names
     assert "python" in names
+    # Verificar que solo herramientas enabled en low_end
+    for e in enabled:
+        assert e.tool.get_profile_status("low_end") == "enabled"
 
 
 def test_plan_high_end_includes_ollama():
@@ -74,6 +77,8 @@ def test_plan_high_end_includes_ollama():
     enabled = plan.get_enabled_entries()
     names = {e.tool.name for e in enabled}
     assert "ollama" in names
+    assert "git" in names
+    assert "python" in names
 
 
 def test_plan_compatibility_classes():

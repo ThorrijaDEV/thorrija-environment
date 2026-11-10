@@ -1,0 +1,44 @@
+# Lynis — Security Auditing Tool
+
+schema_version = 1
+
+[tool]
+name = "lynis"
+category = "security"
+description = "Lynis - security auditing tool for Linux/Unix systems (hardening, compliance, vulnerability scanning)."
+homepage = "https://cisofy.com/lynis/"
+tags = ["security", "audit", "hardening", "compliance", "vulnerability"]
+
+[requirements]
+ram_run_mb = 64
+ram_optimal_mb = 128
+disk_install_mb = 30
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "small"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "lynis"
+debian = "lynis"
+fedora = "lynis"
+void = "lynis"
+opensuse = "lynis"
+alpine = "lynis"
+gentoo = "app-admin/lynis"
+
+[verify]
+command = "lynis --version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 10

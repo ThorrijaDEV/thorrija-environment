@@ -1,0 +1,44 @@
+# pkgconf — pkg-config Compatible Utility
+
+schema_version = 1
+
+[tool]
+name = "pkgconf"
+category = "development"
+description = "pkgconf - pkg-config compatible utility for compiler and linker flags."
+homepage = "https://github.com/pkgconf/pkgconf"
+tags = ["build", "pkg-config", "compiler-flags", "essential"]
+
+[requirements]
+ram_run_mb = 16
+ram_optimal_mb = 32
+disk_install_mb = 5
+disk_run_mb = 2
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "pkgconf"
+debian = "pkg-config"
+fedora = "pkgconf-pkg-config"
+void = "pkgconf"
+opensuse = "pkg-config"
+alpine = "pkgconf"
+gentoo = "dev-util/pkgconf"
+
+[verify]
+command = "pkg-config --version"
+pattern = "^\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

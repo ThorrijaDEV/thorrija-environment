@@ -1,0 +1,58 @@
+# Rust — Programming Language Toolchain
+
+schema_version = 1
+
+[tool]
+name = "rust"
+category = "languages"
+description = "Rust toolchain (rustc, cargo, rustup). Installed via rustup for version management."
+homepage = "https://www.rust-lang.org/"
+tags = ["language", "systems", "cargo", "essential"]
+
+[requirements]
+ram_run_mb = 1024
+ram_optimal_mb = 2048
+disk_install_mb = 2000
+disk_run_mb = 1000
+gpu = "none"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = false
+size_class = "large"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "rustup"
+debian = "rustup"
+fedora = "rustup"
+void = "rustup"
+opensuse = "rustup"
+alpine = "rustup"
+gentoo = "dev-lang/rust"
+
+[install.binary_release]
+url_template = "https://static.rust-lang.org/rustup/dist/{arch}-unknown-linux-gnu/rustup-init"
+version = "1.27.1"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "binary"
+binary_name = "rustup-init"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[install.script_official]
+url = "https://sh.rustup.rs"
+sha256 = "PENDING-VERIFICATION"
+args = ["-y", "--no-modify-path"]
+
+[verify]
+command = "rustc --version"
+pattern = "rustc "
+version_extract = "rustc (\\S+)"
+exit_code = 0
+timeout_sec = 10

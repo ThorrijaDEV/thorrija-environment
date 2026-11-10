@@ -1,0 +1,44 @@
+# tmux — Terminal Multiplexer
+
+schema_version = 1
+
+[tool]
+name = "tmux"
+category = "system"
+description = "tmux - terminal multiplexer for managing multiple terminal sessions."
+homepage = "https://github.com/tmux/tmux"
+tags = ["terminal", "multiplexer", "sessions", "essential"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "tmux"
+debian = "tmux"
+fedora = "tmux"
+void = "tmux"
+opensuse = "tmux"
+alpine = "tmux"
+gentoo = "app-misc/tmux"
+
+[verify]
+command = "tmux -V"
+pattern = "tmux "
+version_extract = "tmux (\\S+)"
+exit_code = 0
+timeout_sec = 5

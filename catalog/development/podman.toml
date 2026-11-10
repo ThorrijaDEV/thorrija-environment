@@ -1,0 +1,44 @@
+# Podman — Daemonless Container Engine
+
+schema_version = 1
+
+[tool]
+name = "podman"
+category = "development"
+description = "Podman - daemonless container engine for developing, managing, and running containers."
+homepage = "https://podman.io/"
+tags = ["container", "podman", "rootless", "daemonless"]
+
+[requirements]
+ram_run_mb = 512
+ram_optimal_mb = 1024
+disk_install_mb = 300
+disk_run_mb = 5000
+gpu = "optional"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "large"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "podman"
+debian = "podman"
+fedora = "podman"
+void = "podman"
+opensuse = "podman"
+alpine = "podman"
+gentoo = "app-containers/podman"
+
+[verify]
+command = "podman --version"
+pattern = "podman version"
+version_extract = "podman version (\\S+)"
+exit_code = 0
+timeout_sec = 10

@@ -1,0 +1,44 @@
+# Nmap — Network Exploration and Security Auditing
+
+schema_version = 1
+
+[tool]
+name = "nmap"
+category = "security"
+description = "Nmap - network exploration tool and security/port scanner."
+homepage = "https://nmap.org/"
+tags = ["security", "network", "scanner", "port-scan", "audit", "authorized-only"]
+
+[requirements]
+ram_run_mb = 64
+ram_optimal_mb = 128
+disk_install_mb = 50
+disk_run_mb = 20
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "nmap"
+debian = "nmap"
+fedora = "nmap"
+void = "nmap"
+opensuse = "nmap"
+alpine = "nmap"
+gentoo = "net-analyzer/nmap"
+
+[verify]
+command = "nmap --version"
+pattern = "Nmap version"
+version_extract = "Nmap version (\\S+)"
+exit_code = 0
+timeout_sec = 5

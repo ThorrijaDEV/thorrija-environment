@@ -1,0 +1,53 @@
+# micro — Modern Intuitive Terminal Editor
+
+schema_version = 1
+
+[tool]
+name = "micro"
+category = "editors"
+description = "micro - modern and intuitive terminal-based text editor."
+homepage = "https://micro-editor.github.io/"
+tags = ["editor", "terminal", "simple", "mouse-support"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "enabled"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "micro"
+debian = "micro"
+fedora = "micro"
+void = "micro"
+opensuse = "micro"
+alpine = "micro"
+gentoo = "app-editors/micro"
+
+[install.binary_release]
+url_template = "https://github.com/zyedidia/micro/releases/download/v{version}/micro-{version}-linux64.tar.gz"
+version = "2.0.13"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "micro"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "micro -version"
+pattern = "Version: \\d+\\.\\d+\\.\\d+"
+version_extract = "Version: (\\S+)"
+exit_code = 0
+timeout_sec = 5

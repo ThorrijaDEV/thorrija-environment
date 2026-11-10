@@ -1,0 +1,43 @@
+# whisper.cpp — Speech Recognition
+
+schema_version = 1
+
+[tool]
+name = "whisper-cpp"
+category = "ai"
+description = "whisper.cpp - high-performance inference of OpenAI's Whisper ASR model in C/C++."
+homepage = "https://github.com/ggerganov/whisper.cpp"
+tags = ["ai", "speech", "asr", "whisper", "transcription"]
+
+[requirements]
+ram_run_mb = 1024
+ram_optimal_mb = 2048
+disk_install_mb = 300
+disk_run_mb = 100
+gpu = "optional"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "medium"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.git_clone]
+url = "https://github.com/ggerganov/whisper.cpp.git"
+branch = "master"
+build_system = "cmake"
+build_args = []
+binary_path = "main"
+install_to = "~/.local/bin"
+
+[verify]
+command = "main --help 2>&1 | head -1"
+pattern = "whisper.cpp"
+version_extract = ""
+exit_code = 0
+timeout_sec = 10

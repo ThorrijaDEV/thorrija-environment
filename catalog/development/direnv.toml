@@ -1,0 +1,53 @@
+# direnv — Environment Switcher
+
+schema_version = 1
+
+[tool]
+name = "direnv"
+category = "development"
+description = "direnv - unclutter your .profile with per-project environment variables."
+homepage = "https://direnv.net/"
+tags = ["shell", "environment", "dotenv", "productivity"]
+
+[requirements]
+ram_run_mb = 16
+ram_optimal_mb = 32
+disk_install_mb = 5
+disk_run_mb = 2
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7"]
+privileged = true
+size_class = "tiny"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "direnv"
+debian = "direnv"
+fedora = "direnv"
+void = "direnv"
+opensuse = "direnv"
+alpine = "direnv"
+gentoo = "sys-apps/direnv"
+
+[install.binary_release]
+url_template = "https://github.com/direnv/direnv/releases/download/v{version}/direnv.linux-{arch}"
+version = "2.35.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "binary"
+binary_name = "direnv"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[verify]
+command = "direnv --version"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 5

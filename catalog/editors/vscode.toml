@@ -1,0 +1,52 @@
+# VS Code — Code Editor
+
+schema_version = 1
+
+[tool]
+name = "vscode"
+category = "editors"
+description = "Visual Studio Code - code editor redefined and optimized for modern web and cloud applications."
+homepage = "https://code.visualstudio.com/"
+tags = ["editor", "gui", "electron", "microsoft", "extensions"]
+
+[requirements]
+ram_run_mb = 1024
+ram_optimal_mb = 2048
+disk_install_mb = 300
+disk_run_mb = 500
+gpu = "optional"
+cpu_cores_min = 2
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "large"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "excluded"
+standard = "optional"
+high_end = "enabled"
+
+[install.native]
+arch = "code"
+debian = "code"
+fedora = "code"
+void = "vscode"
+opensuse = "code"
+gentoo = "app-editors/vscode"
+
+[install.binary_release]
+url_template = "https://code.visualstudio.com/sha/download?build=stable&os=linux-{arch}"
+version = "1.94.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "code"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "code --version | head -1"
+pattern = "^\\d+\\.\\d+\\.\\d+"
+version_extract = "(\\S+)"
+exit_code = 0
+timeout_sec = 10

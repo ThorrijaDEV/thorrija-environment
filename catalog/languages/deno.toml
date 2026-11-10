@@ -1,0 +1,52 @@
+# Deno — Secure JavaScript/TypeScript Runtime
+
+schema_version = 1
+
+[tool]
+name = "deno"
+category = "languages"
+description = "Deno - secure runtime for JavaScript and TypeScript."
+homepage = "https://deno.land/"
+tags = ["language", "javascript", "typescript", "secure", "runtime"]
+
+[requirements]
+ram_run_mb = 128
+ram_optimal_mb = 256
+disk_install_mb = 100
+disk_run_mb = 50
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = false
+size_class = "small"
+network_required = true
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "deno"
+
+[install.binary_release]
+url_template = "https://github.com/denoland/deno/releases/download/v{version}/deno-{arch}-unknown-linux-gnu.zip"
+version = "2.0.6"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "zip"
+binary_name = "deno"
+install_to = "~/.local/bin"
+strip_components = 0
+
+[install.script_official]
+url = "https://deno.land/install.sh"
+sha256 = "PENDING-VERIFICATION"
+args = []
+
+[verify]
+command = "deno --version"
+pattern = "deno \\d+\\.\\d+\\.\\d+"
+version_extract = "deno (\\S+)"
+exit_code = 0
+timeout_sec = 5

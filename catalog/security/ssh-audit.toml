@@ -1,0 +1,43 @@
+# ssh-audit — SSH Server Auditing
+
+schema_version = 1
+
+[tool]
+name = "ssh-audit"
+category = "security"
+description = "ssh-audit - SSH server auditing tool (banner, key exchange, encryption, MAC, compression, compatibility)."
+homepage = "https://github.com/jtesta/ssh-audit"
+tags = ["security", "ssh", "audit", "hardening", "compliance"]
+
+[requirements]
+ram_run_mb = 32
+ram_optimal_mb = 64
+disk_install_mb = 10
+disk_run_mb = 5
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = false
+size_class = "tiny"
+network_required = true
+python_min = "3.9"
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "ssh-audit"
+
+[install.pipx]
+package = "ssh-audit"
+version = "3.2.0"
+python = "3.9"
+
+[verify]
+command = "ssh-audit --version"
+pattern = "ssh-audit \\d+\\.\\d+\\.\\d+"
+version_extract = "ssh-audit (\\S+)"
+exit_code = 0
+timeout_sec = 5

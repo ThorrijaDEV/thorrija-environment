@@ -19,6 +19,20 @@ except ModuleNotFoundError:
 
 
 @dataclass(frozen=True)
+class ValidationError(Exception):
+    """Error de validación con ubicación."""
+    file: str
+    message: str
+    path: str = ""
+
+    def __init__(self, file: str, message: str, path: str = ""):
+        self.file = file
+        self.message = message
+        self.path = path
+        super().__init__(f"{file}{':' + path + ' ' if path else ' '}{message}")
+
+
+@dataclass(frozen=True)
 class ValidationResult:
     """Resultado de validación de un manifiesto."""
     file: str
@@ -244,7 +258,7 @@ class ManifestValidator:
                     if field not in mdata:
                         errors.append(f"[install.script_official].{field}: requerido")
                 sha = mdata.get("sha256", "")
-                if sha and (not isinstance(sha, str) or len(sha) != 64 or not all(c in "0123456789abcdef" for c in sha.lower())):
+                if sha and sha.upper() != "PENDING-VERIFICATION" and (not isinstance(sha, str) or len(sha) != 64 or not all(c in "0123456789abcdef" for c in sha.lower())):
                     errors.append("[install.script_official].sha256: hash hex de 64 chars requerido")
                 if sha.upper() == "PENDING-VERIFICATION":
                     warnings.append(f"{file}: script_official.sha256 = PENDING-VERIFICATION (método deshabilitado hasta pinnear hash real)")
@@ -308,3 +322,11 @@ class ManifestValidator:
 def validate_manifest(path: Path) -> ValidationResult:
     """Función de conveniencia."""
     return ManifestValidator().validate_file(path)
+
+
+__all__ = [
+    "ManifestValidator",
+    "ValidationResult",
+    "ValidationError",
+    "validate_manifest",
+]

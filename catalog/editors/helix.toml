@@ -1,0 +1,53 @@
+# Helix — Modern Modal Editor
+
+schema_version = 1
+
+[tool]
+name = "helix"
+category = "editors"
+description = "Helix - post-modern modal text editor written in Rust."
+homepage = "https://helix-editor.com/"
+tags = ["editor", "modal", "rust", "tree-sitter", "lsp"]
+
+[requirements]
+ram_run_mb = 128
+ram_optimal_mb = 256
+disk_install_mb = 30
+disk_run_mb = 10
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64"]
+privileged = true
+size_class = "small"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "helix"
+debian = "helix"
+fedora = "helix"
+void = "helix"
+opensuse = "helix"
+alpine = "helix"
+gentoo = "app-editors/helix"
+
+[install.binary_release]
+url_template = "https://github.com/helix-editor/helix/releases/download/{version}/helix-{version}-{arch}.tar.xz"
+version = "24.07.0"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.xz"
+binary_name = "hx"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "hx --version"
+pattern = "helix \\d+\\.\\d+\\.\\d+"
+version_extract = "helix (\\S+)"
+exit_code = 0
+timeout_sec = 5

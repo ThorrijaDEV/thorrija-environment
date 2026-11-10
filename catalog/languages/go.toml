@@ -1,0 +1,53 @@
+# Go — Programming Language Toolchain
+
+schema_version = 1
+
+[tool]
+name = "go"
+category = "languages"
+description = "Go programming language compiler and toolchain."
+homepage = "https://go.dev/"
+tags = ["language", "compiler", "cloud-native"]
+
+[requirements]
+ram_run_mb = 256
+ram_optimal_mb = 512
+disk_install_mb = 300
+disk_run_mb = 100
+gpu = "none"
+cpu_cores_min = 1
+cpu_arch = ["x86_64", "aarch64", "armv7", "riscv64"]
+privileged = true
+size_class = "medium"
+network_required = false
+python_min = ""
+
+[profiles]
+low_end = "optional"
+standard = "enabled"
+high_end = "enabled"
+
+[install.native]
+arch = "go"
+debian = "golang-go"
+fedora = "golang"
+void = "go"
+opensuse = "go"
+alpine = "go"
+gentoo = "dev-lang/go"
+
+[install.binary_release]
+url_template = "https://go.dev/dl/go{version}.{arch}.tar.gz"
+version = "1.23.1"
+sha256 = { x86_64 = "PENDING-VERIFICATION", aarch64 = "PENDING-VERIFICATION" }
+archive_type = "tar.gz"
+binary_name = "go"
+install_to = "~/.local/bin"
+strip_components = 1
+
+[verify]
+command = "go version"
+pattern = "go version go"
+version_extract = "go version go(\\S+)"
+exit_code = 0
+timeout_sec = 5
