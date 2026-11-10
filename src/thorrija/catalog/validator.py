@@ -26,9 +26,9 @@ class ValidationError(Exception):
     path: str = ""
 
     def __init__(self, file: str, message: str, path: str = ""):
-        self.file = file
-        self.message = message
-        self.path = path
+        object.__setattr__(self, "file", file)
+        object.__setattr__(self, "message", message)
+        object.__setattr__(self, "path", path)
         super().__init__(f"{file}{':' + path + ' ' if path else ' '}{message}")
 
 
@@ -302,7 +302,7 @@ class ManifestValidator:
         if not isinstance(auto, bool):
             errors.append("[ai_models].automatic: boolean")
         elif auto is True:
-            errors.append("[ai_models].automatic: MUST BE false (proyecto prohíbe descarga automática de modelos)")
+            errors.append("[ai_models].automatic: debe ser false (el proyecto prohíbe descarga automática de modelos)")
 
         models = ai.get("default_models", [])
         if models and not (isinstance(models, list) and all(isinstance(m, str) for m in models)):

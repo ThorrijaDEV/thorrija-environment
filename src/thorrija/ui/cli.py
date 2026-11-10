@@ -16,6 +16,7 @@ from ..state import AuditLog, StateStore, BackupManager
 from .formatters import (
     format_hardware_report, format_plan, format_audit_summary,
     format_error, format_warning, format_info, format_success,
+    Colors,
 )
 
 
@@ -188,10 +189,11 @@ class ThorrijaCLI:
         classifier = ProfileClassifier(str(self.profiles_dir) if self.profiles_dir else None)
         explanations = classifier.explain_classification(self.hw_report)
 
-        print(f"\n{format_info('Detalle de clasificación:')}")
+        print(f"\n{format_info('Detalle de clasificacion:')}")
         for name, info in explanations.items():
-            status = format_success("✓") if info["matches"] else format_error("✗")
-            print(f"  {status} {name}: {', '.join(info['reasons'][:2])}")
+            status = "Coincide" if info["matches"] else "No coincide"
+            color = Colors.GREEN if info["matches"] else Colors.RED
+            print(f"  {color}{status}{Colors.RESET} {name}: {', '.join(info['reasons'][:2])}")
 
         return 0
 

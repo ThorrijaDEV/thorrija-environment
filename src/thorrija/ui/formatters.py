@@ -32,11 +32,10 @@ class Colors:
 
 
 def format_hardware_report(hw: HardwareReport, os_report: OSReport) -> str:
-    """Formatea reporte de hardware detectado."""
     lines = []
     c = Colors
 
-    lines.append(f"{c.BOLD}=== Hardware Detectado ==={c.RESET}")
+    lines.append(f"{c.BOLD}=== Hardware detectado ==={c.RESET}")
     lines.append(f"  Hostname:     {hw.hostname}")
     lines.append(f"  Kernel:       {hw.kernel}")
     lines.append(f"  Arquitectura: {hw.architecture}")
@@ -45,8 +44,8 @@ def format_hardware_report(hw: HardwareReport, os_report: OSReport) -> str:
     lines.append(f"  Cores/Threads: {hw.cpu.cores} / {hw.cpu.threads}")
     lines.append(f"  Vendor:       {hw.cpu.vendor}")
     lines.append("")
-    lines.append(f"  RAM Total:    {hw.memory.total_mb} MB")
-    lines.append(f"  RAM Disponible: {hw.memory.available_mb} MB")
+    lines.append(f"  RAM total:    {hw.memory.total_mb} MB")
+    lines.append(f"  RAM disponible: {hw.memory.available_mb} MB")
     lines.append(f"  Swap:         {hw.memory.swap_total_mb} MB")
     lines.append("")
 
@@ -78,18 +77,16 @@ def format_hardware_report(hw: HardwareReport, os_report: OSReport) -> str:
 
 
 def format_plan(plan: InstallationPlan, show_all: bool = False) -> str:
-    """Formatea plan de instalación como tabla legible."""
     lines = []
     c = Colors
 
-    # Resumen
-    lines.append(f"{c.BOLD}=== Plan de Instalación ==={c.RESET}")
+    lines.append(f"{c.BOLD}=== Plan de instalacion ==={c.RESET}")
     lines.append(f"  Perfil:           {plan.profile.upper()}")
     lines.append(f"  Total herramientas: {len(plan.entries)}")
     lines.append(f"  Descarga estimada:  {plan.total_download_mb} MB")
     lines.append(f"  Disco estimado:     {plan.total_disk_mb} MB")
-    lines.append(f"  Requiere sudo:      {'Sí' if plan.requires_sudo else 'No'}")
-    lines.append(f"  Modo:             {'DRY-RUN' if plan.dry_run else 'EJECUCIÓN REAL'}")
+    lines.append(f"  Requiere sudo:      {'Si' if plan.requires_sudo else 'No'}")
+    lines.append(f"  Modo:             {'DRY-RUN' if plan.dry_run else 'EJECUCION REAL'}")
     lines.append("")
 
     if plan.sudo_operations:
@@ -98,9 +95,7 @@ def format_plan(plan: InstallationPlan, show_all: bool = False) -> str:
             lines.append(f"  - {op}")
         lines.append("")
 
-    # Tabla de herramientas
     if not show_all:
-        # Solo will_install y optional
         entries = [e for e in plan.entries if e.status in ("will_install", "optional")]
         excluded_count = len([e for e in plan.entries if e.status == "excluded"])
         incompatible_count = len([e for e in plan.entries if e.compatibility == CompatibilityClass.INCOMPATIBLE])
@@ -115,8 +110,7 @@ def format_plan(plan: InstallationPlan, show_all: bool = False) -> str:
         lines.append(f"{c.YELLOW}Sin herramientas para mostrar.{c.RESET}")
         return "\n".join(lines)
 
-    # Headers
-    headers = ["Herramienta", "Categoría", "Perfil", "Método", "Compat.", "Descarga", "Disco", "Sudo", "Estado"]
+    headers = ["Herramienta", "Categoria", "Perfil", "Metodo", "Compat.", "Descarga", "Disco", "Sudo", "Estado"]
     col_widths = [20, 12, 8, 14, 10, 8, 6, 4, 12]
 
     def fmt_row(cells: List[str]) -> str:
@@ -146,36 +140,33 @@ def format_plan(plan: InstallationPlan, show_all: bool = False) -> str:
             tool.category[:11],
             entry.tool.get_profile_status(plan.profile)[:7],
             entry.method[:13],
-            compat_color.colorize(entry.compatibility.value[:9], compat_color),
+            c.colorize(entry.compatibility.value[:9], compat_color),
             f"{entry.estimated_download_mb}MB",
             f"{entry.estimated_disk_mb}MB",
-            "Sí" if entry.requires_sudo else "No",
-            status_color.colorize(entry.status[:11], status_color),
+            "Si" if entry.requires_sudo else "No",
+            c.colorize(entry.status[:11], status_color),
         ]
         lines.append(fmt_row(cells))
 
-        # Warnings
         for warn in entry.warnings:
-            lines.append(f"  {c.YELLOW}⚠ {warn}{c.RESET}")
+            lines.append(f"  {c.YELLOW}! {warn}{c.RESET}")
 
     lines.append("")
-    # Leyenda
     lines.append(f"{c.BOLD}Leyenda:{c.RESET}")
-    lines.append(f"  {c.GREEN}●{c.RESET} Óptimo    {c.CYAN}●{c.RESET} Recomendado    {c.YELLOW}●{c.RESET} Compatible    {c.RED}●{c.RESET} Incompatible")
-    lines.append(f"  {c.GREEN}●{c.RESET} Se instalará    {c.CYAN}●{c.RESET} Opcional    {c.GRAY}●{c.RESET} Excluido")
+    lines.append(f"  {c.GREEN}+{c.RESET} Optimo    {c.CYAN}+{c.RESET} Recomendado    {c.YELLOW}+{c.RESET} Compatible    {c.RED}+{c.RESET} Incompatible")
+    lines.append(f"  {c.GREEN}+{c.RESET} Se instalara    {c.CYAN}+{c.RESET} Opcional    {c.GRAY}+{c.RESET} Excluido")
 
     return "\n".join(lines)
 
 
 def format_audit_summary(entries: List[Dict]) -> str:
-    """Formatea resumen de auditoría."""
     lines = []
     c = Colors
 
     if not entries:
-        return f"{c.YELLOW}Sin entradas de auditoría.{c.RESET}"
+        return f"{c.YELLOW}Sin entradas de auditoria.{c.RESET}"
 
-    lines.append(f"{c.BOLD}=== Resumen de Auditoría ==={c.RESET}")
+    lines.append(f"{c.BOLD}=== Resumen de auditoria ==={c.RESET}")
     lines.append(f"  Entradas totales: {len(entries)}")
 
     by_result = {}

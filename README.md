@@ -1,79 +1,81 @@
-# THORRIJA ENVIRONMENT
+# Thorrija Environment
 
 Universal, adaptive, hardware-agnostic development environment provisioner for Linux.
 
-## Phase Status
+## Estado del proyecto
 
-| Phase | Description | Status | Date |
-|-------|-------------|--------|------|
-| 0 | Audit & Research | ✅ Complete | 2026-11-10 |
-| 1 | Formal Specification | ✅ Complete | 2026-11-10 |
-| 2 | Core Implementation | ⏳ Pending | — |
-| 3 | Modular Catalog | ⏳ Pending | — |
-| 4 | Offline/SSD Distribution | ⏳ Pending | — |
-| 5 | Final Validation | ⏳ Pending | — |
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| 0 | Auditoría e investigación | Completada |
+| 1 | Especificación formal | Completada |
+| 2 | Implementación del núcleo | Completada |
+| 3 | Catálogo modular | Completada |
+| 4 | Distribución offline/SSD | Pendiente |
+| 5 | Validación final | Pendiente |
 
-## Overview
+Última actualización: 2026-11-10
 
-Thorrija Environment is a **manifest-driven** provisioning system that:
+## Qué hace
 
-1. **Detects** OS, hardware, and resources (no assumptions, cascading fallbacks)
-2. **Classifies** the machine into a profile (LOW-END / STANDARD / HIGH-END) with configurable thresholds
-3. **Selects** tools from a modular catalog via declarative TOML manifests
-4. **Generates** a human-reviewable installation plan with resource estimates
-5. **Installs** via idempotent drivers (native packages, binary releases, git, scripts, pipx)
-6. **Audits** real outcomes (command presence + output pattern, not exit codes)
+Thorrija Environment es un provisionador **basado en manifiestos** que:
 
-## Quick Start (Future)
+1. **Detecta** el sistema operativo, hardware y recursos (sin asumir, con fallbacks en cascada)
+2. **Clasifica** la máquina en un perfil (LOW-END / STANDARD / HIGH-END) con umbrales configurables
+3. **Selecciona** herramientas de un catálogo modular mediante manifiestos TOML declarativos
+4. **Genera** un plan de instalación revisable por el usuario, con estimación de recursos
+5. **Instala** mediante drivers idempotentes (paquetes nativos, binarios, git, scripts, pipx)
+6. **Audita** resultados reales (comando presente + patrón de salida, no solo código de salida)
+
+## Inicio rápido (cuando esté listo)
 
 ```bash
-# From GitHub (Phase 1+ only)
+# Desde GitHub
 curl -fsSL https://github.com/ThorrijaDEV/thorrija-environment/releases/latest/download/install.sh | bash -s -- --detect
 ./install.sh --profile standard --plan
 ./install.sh --profile standard --yes
 ```
 
-## Documentation
+## Documentación
 
-- [Architecture](docs/ARCHITECTURE.md) — System design, data flow, module boundaries
-- [Manifests](docs/MANIFESTS.md) — TOML schema, classification semantics, profiles
-- [Security](docs/SECURITY.md) — Threat model, sudo policy, hash pinning, backups
-- [Compatibility](docs/COMPATIBILITY.md) — Distro × tool matrix, verified/assumed/unsupported
-- [Bootstrap](docs/BOOTSTRAP.md) — install.sh spec, Python fallback strategies
+- [Arquitectura](docs/ARCHITECTURE.md) — Diseño del sistema, flujo de datos, límites de módulos
+- [Manifiestos](docs/MANIFESTS.md) — Esquema TOML, semántica de clasificación, perfiles
+- [Seguridad](docs/SECURITY.md) — Modelo de amenazas, política sudo, hash pinning, backups
+- [Compatibilidad](docs/COMPATIBILITY.md) — Matriz distro × herramienta, verified/assumed/unsupported
+- [Bootstrap](docs/BOOTSTRAP.md) — Especificación de install.sh, estrategias de fallback Python
 
-## Catalog Structure
+## Estructura del catálogo
 
 ```
 catalog/
 ├── languages/      # Python, Rust, Go, Java, JS/TS, C/C++
 ├── development/    # Git, GitHub CLI, CMake, Make, Docker, Podman
-├── editors/        # Neovim, VS Code, OpenCode, terminals
+├── editors/        # Neovim, VS Code, OpenCode, terminales
 ├── ai/             # Ollama, LiteLLM, PyTorch, NumPy, scikit-learn
-├── security/       # Nmap, Wireshark, analysis tools
-└── system/         # Fish, Starship, tmux, fonts, dotfiles (chezmoi)
+├── security/       # Nmap, Wireshark, herramientas de análisis
+└── system/         # Fish, Starship, tmux, fuentes, dotfiles (chezmoi)
 ```
 
-## Profiles
+## Perfiles
 
-| Profile | Target Hardware | Philosophy |
-|---------|-----------------|------------|
-| `low-end` | 2 cores, 2–4 GB RAM, no GPU, limited disk | CLI-only, minimal services, no local AI |
-| `standard` | 4–8 cores, 8–16 GB RAM, optional GPU | Full dev environment, optional containers, CPU AI |
-| `high-end` | 16+ GB RAM, modern CPU, optional dedicated GPU | AI frameworks, Ollama, PyTorch/CUDA, local models |
+| Perfil | Hardware objetivo | Filosofía |
+|--------|-------------------|-----------|
+| `low-end` | 2 cores, 2–4 GB RAM, sin GPU, disco limitado | Solo CLI, servicios mínimos, sin IA local |
+| `standard` | 4–8 cores, 8–16 GB RAM, GPU opcional | Entorno de desarrollo completo, contenedores opcionales, IA en CPU |
+| `high-end` | 16+ GB RAM, CPU moderna, GPU dedicada opcional | Frameworks de IA, Ollama, PyTorch/CUDA, modelos locales |
 
-Profiles are **configurable** — thresholds live in `profiles/*.toml`, not hardcoded.
+Los perfiles son **configurables** — los umbrales viven en `profiles/*.toml`, no en código.
 
-## Distribution
+## Distribución
 
-**This phase: GitHub-only.** The installer downloads manifests and the engine from GitHub releases. Offline/SSD mode is designed for (architecture allows it) but not implemented.
+**Esta fase: solo GitHub.** El instalador descarga manifiestos y motor desde GitHub releases. El modo offline/SSD está diseñado (la arquitectura lo permite) pero no implementado.
 
-## Requirements
+## Requisitos
 
-- Linux (Arch, Debian, Ubuntu, Fedora, Void — others via generic drivers)
-- Bash + Python ≥ 3.9 (bootstrap handles missing Python)
-- Internet access for GitHub downloads
-- sudo for native package installs (grouped, shown, confirmed)
+- Linux (Arch, Debian, Ubuntu, Fedora, Void — otros vía drivers genéricos)
+- Bash + Python ≥ 3.9 (el bootstrap gestiona Python ausente)
+- Acceso a Internet para descargas de GitHub
+- sudo para instalaciones nativas (agrupadas, mostradas, confirmadas)
 
-## License
+## Licencia
 
-MIT — see LICENSE (to be added in Phase 2).
+MIT — ver LICENSE (pendiente).

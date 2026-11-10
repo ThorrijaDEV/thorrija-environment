@@ -44,7 +44,7 @@ DEFAULT_THRESHOLDS = ProfileThresholds(
     ram_min_mb=4096,       # 4 GB mínimo para standard
     ram_max_mb=16384,      # 16 GB máximo para standard
     cpu_cores_min=4,
-    cpu_cores_max=7,
+    cpu_cores_max=2**31 - 1,  # sin límite superior realista
 )
 
 BUILTIN_PROFILES = {
